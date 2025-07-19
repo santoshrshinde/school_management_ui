@@ -1,8 +1,23 @@
-<button (click)="addStudent()">add student</button>
+<button (click)="addStudent()" mat-button matButton="elevated">add student</button>
 <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
     class="mat-elevation-z8">
-
-    <!-- Position Column -->
+   <!--  <ng-container matColumnDef="select">
+        <td mat-cell>
+            <mat-header-cell *matHeaderCellDef>
+                <mat-checkbox  (change)="$event ? masterToggle() : null"
+                              [checked]="selection.hasValue() && isAllSelected()"
+                              [indeterminate]="selection.hasValue() && !isAllSelected()">
+                </mat-checkbox>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let row">
+                <mat-checkbox (click)="$event.stopPropagation()"
+                              (change)="$event ? selection.toggle(row) : null"
+                              [checked]="selection.isSelected(row)">
+                </mat-checkbox>
+              </mat-cell>
+        </td>
+      </ng-container> -->
+    <!-- Index Column -->
     <ng-container>
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Name">
             No.
@@ -10,7 +25,7 @@
         <td mat-cell *matCellDef="let element; let index = index;"> {{index + 1}} </td>
     </ng-container>
 
-    <!-- Position Column -->
+    <!-- Name Column -->
     <ng-container matColumnDef="Name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Name">
             Name
@@ -18,7 +33,7 @@
         <td mat-cell *matCellDef="let element"> {{element.Name}} </td>
     </ng-container>
 
-    <!-- Name Column -->
+    <!--  Date Of Birth Column -->
     <ng-container matColumnDef="DateOfBirth">
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by DateOfBirth">
             Date Of Birth
@@ -26,13 +41,51 @@
         <td mat-cell *matCellDef="let element"> {{element.DateOfBirth}} </td>
     </ng-container>
 
-    <!-- Weight Column -->
+    <!-- Address Column -->
     <ng-container matColumnDef="Address">
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Address">
             Address
         </th>
         <td mat-cell *matCellDef="let element"> {{element.Address}} </td>
     </ng-container>
+
+      <ng-container matColumnDef="Action">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td
+          mat-cell
+          *matCellDef="let element; let i = index"
+        >
+          <!-- <button
+            mat-icon-button
+            class="material-icons app-toolbar-menu save-button"
+            matTooltip="Save Changes"
+            (click)="delete(element.StudentID)"
+            color="primary"
+          >
+            <mat-icon>check_circle</mat-icon>
+          </button> -->
+
+          <button
+            mat-icon-button
+            class="material-icons app-toolbar-menu save-button"
+            matTooltip="Edit"
+            color="primary"
+            (click)="edit(element.StudentID)"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+
+          <button
+            mat-icon-button
+            class="material-icons app-toolbar-menu delete-button"
+            matTooltip="Delete"
+            color="warn"
+            (click)="delete(element.StudentID)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

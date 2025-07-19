@@ -9,6 +9,10 @@ import { Student } from './student';
 import { AddStudent } from './add-student/add-student';
 import { ListStudent } from './list-student/list-student';
 import { FormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCardModule } from '@angular/material/card';
 
 
 @NgModule({
@@ -21,7 +25,11 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     MatTableModule, 
     MatPaginatorModule,
+    MatIconModule,
     FormsModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatCardModule,
     StudentRoutingModule
   ]
 })

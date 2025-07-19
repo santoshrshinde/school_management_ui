@@ -5,6 +5,18 @@ import {MatSort, Sort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Common } from '../../serices/common';
+import { SelectionModel } from '@angular/cdk/collections';
+
+
+
+export interface Student {
+  Name: string;
+  Address: string;
+  DateOfBirth: string;
+  Action?: string;
+}
+
+
 
 @Component({
   selector: 'app-list-student',
@@ -14,11 +26,13 @@ import { Common } from '../../serices/common';
   // imports: [MatTableModule, MatPaginatorModule],
 })
 export class ListStudent implements AfterViewInit{
-  displayedColumns: string[] = ['Name', 'DateOfBirth', 'Address'];
+  // displayedColumns: string[] = ['select', 'Name', 'DateOfBirth', 'Address', 'Action'];
+  displayedColumns: string[] = [ 'Name', 'DateOfBirth', 'Address', 'Action'];
   dataSource = new MatTableDataSource<Student>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  
+  selection = new SelectionModel<Element>(true, []);
+  students : Student[] = [];
   
   
   private commonService = inject(Common);
@@ -47,6 +61,15 @@ export class ListStudent implements AfterViewInit{
       }
     });
   }
+
+  delete(id: number) {
+    console.log('ID', id);
+  }
+
+  edit(id: number) {
+    console.log('ID', id);
+    this.router.navigate(['student/edit-student', id]);
+  }
   /** Announce the change in sort state for assistive technology. */
   announceSortChange(sortState: Event) {
     // This example uses English messages. If your application supports
@@ -59,10 +82,32 @@ export class ListStudent implements AfterViewInit{
       this._liveAnnouncer.announce('Sorting cleared');
     } */
   }
+
+
+
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  removeSelectedRows() {
+     this.selection.selected.forEach(item => {
+      let index: number = this.students.findIndex((d : any)=> d === item);
+      console.log(this.students.findIndex((d : any)=> d === item));
+      this.dataSource.data.splice(index,1);
+
+      this.dataSource = new MatTableDataSource<Student>(this.students);
+    });
+    this.selection = new SelectionModel<Element>(true, []);
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    this.isAllSelected() ?
+      this.selection.clear() :
+      this.dataSource.data.forEach((row: any) => this.selection.select(row));
+  }
 }
 
-export interface Student {
-  Name: string;
-  Address: string;
-  DateOfBirth: string;
-}
+

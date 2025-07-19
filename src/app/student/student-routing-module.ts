@@ -18,6 +18,10 @@ const routes: Routes = [
         component: AddStudent
       },
       {
+        path: 'edit-student/:id',
+        component: AddStudent
+      },
+      {
         path: '',
         redirectTo: 'student-list',
         pathMatch: 'full'
