@@ -8,6 +8,10 @@ export const routes: Routes = [
         loadChildren: () => import('./users/users-module').then((mod) => mod.UsersModule)
     },
     {
+        path: 'student',
+        loadChildren: () => import('./student/student-module').then((mod) => mod.StudentModule)
+    },
+    {
         path: '',
         redirectTo: '/users',
         pathMatch: 'full'
