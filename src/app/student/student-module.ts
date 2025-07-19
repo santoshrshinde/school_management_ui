@@ -8,6 +8,7 @@ import { StudentRoutingModule } from './student-routing-module';
 import { Student } from './student';
 import { AddStudent } from './add-student/add-student';
 import { ListStudent } from './list-student/list-student';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { ListStudent } from './list-student/list-student';
     CommonModule,
     MatTableModule, 
     MatPaginatorModule,
+    FormsModule,
     StudentRoutingModule
   ]
 })

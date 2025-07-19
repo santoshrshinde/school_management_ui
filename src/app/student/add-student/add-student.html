@@ -1,1 +1,6 @@
-<p>add-student works!</p>
+<form>
+    <input type="text" name="" [ngModelOptions]="{standalone: true}" placeholder="Enter Name" [(ngModel)]="student.Name" id="" required>
+    <input type="date" name="" [ngModelOptions]="{standalone: true}" placeholder="Enter DateOfBirth" [(ngModel)]="student.DateOfBirth" id="" required>
+    <input type="text" name="" [ngModelOptions]="{standalone: true}" placeholder="Enter Address" [(ngModel)]="student.Address" id="" required>
+    <button type="button" (click)="save()">Save</button>
+</form>
