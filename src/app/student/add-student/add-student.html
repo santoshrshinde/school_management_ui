@@ -1,6 +1,21 @@
-<form>
-    <input type="text" name="" [ngModelOptions]="{standalone: true}" placeholder="Enter Name" [(ngModel)]="student.Name" id="" required>
-    <input type="date" name="" [ngModelOptions]="{standalone: true}" placeholder="Enter DateOfBirth" [(ngModel)]="student.DateOfBirth" id="" required>
-    <input type="text" name="" [ngModelOptions]="{standalone: true}" placeholder="Enter Address" [(ngModel)]="student.Address" id="" required>
-    <button type="button" (click)="save()">Save</button>
-</form>
+
+
+<form class="student-form">
+    <mat-form-field class="student-full-width">
+      <mat-label>Name</mat-label>
+      <input type="text" matInput  [(ngModel)]="student.Name"
+             placeholder="Enter Name" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+    <mat-form-field class="student-full-width">
+      <mat-label>Date Of Birth</mat-label>
+      <input type="date" matInput  [(ngModel)]="student.DateOfBirth"
+             placeholder="dd-mm-yyyy" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+    <mat-form-field class="student-full-width">
+      <mat-label>Address</mat-label>
+      <input type="text" matInput  [(ngModel)]="student.Address"
+             placeholder="Address" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+    <button type="button" matButton="outlined" class="btn-sc" (click)="save()">Save</button>
+    <button type="button" matButton="outlined" class="btn-sc" (click)="cancel()">Cancel</button>
+  </form>
