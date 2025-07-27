@@ -6,6 +6,7 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Common } from '../../serices/common';
 import { SelectionModel } from '@angular/cdk/collections';
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -26,7 +27,6 @@ export interface Student {
   // imports: [MatTableModule, MatPaginatorModule],
 })
 export class ListStudent implements AfterViewInit{
-  // displayedColumns: string[] = ['select', 'Name', 'DateOfBirth', 'Address', 'Action'];
   displayedColumns: string[] = [ 'Name', 'DateOfBirth', 'Address', 'Action'];
   dataSource = new MatTableDataSource<Student>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -37,6 +37,7 @@ export class ListStudent implements AfterViewInit{
   
   private commonService = inject(Common);
   private _liveAnnouncer = inject(LiveAnnouncer);
+  private toastr: ToastrService = inject(ToastrService);
   constructor(private router: Router) {
     this.getStudents();
   }
@@ -58,12 +59,24 @@ export class ListStudent implements AfterViewInit{
       },
       error: (err) => {
         console.error('Failed to load students:', err);
+        this.toastr.error('Failed to load students', 'Error');
       }
     });
   }
 
   delete(id: number) {
     console.log('ID', id);
+    this.commonService.deleteStudent(id).subscribe({
+      next: (response) => {
+        console.log('Delete Response', response);
+        this.toastr.success('Student deleted successfully', 'Success');
+        this.getStudents(); // Refresh the student list
+      },
+      error: (err) => {
+        console.error('Failed to delete student:', err);
+        this.toastr.error('Failed to delete student', 'Error');
+      }
+    });
   }
 
   edit(id: number) {
