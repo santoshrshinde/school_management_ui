@@ -1,0 +1,54 @@
+<mat-sidenav-container class="example-container" autosize>
+  <mat-sidenav #sidenav mode="side" opened class="example-sidenav">
+    <mat-list>
+      <mat-list-item>
+        <mat-icon matListItemIcon>home</mat-icon>
+        <div matListItemTitle>Home</div>
+      </mat-list-item>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>menu</mat-icon>
+            Students
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-list>
+          <mat-list-item>
+            <div matListItemTitle>List Students</div>
+          </mat-list-item>
+          <mat-list-item>
+            <div matListItemTitle>Add Student</div>
+          </mat-list-item>
+        </mat-list>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>menu</mat-icon>
+            Teachers
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-list>
+          <mat-list-item>
+            <div matListItemTitle>List Teachers</div>
+          </mat-list-item>
+          <mat-list-item>
+            <div matListItemTitle>Add Teacher</div>
+          </mat-list-item>
+        </mat-list>
+      </mat-expansion-panel>
+    </mat-list>
+  </mat-sidenav>
+
+  <div class="example-sidenav-content">
+    <mat-toolbar>
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>My App</span>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  </div>
+</mat-sidenav-container>
