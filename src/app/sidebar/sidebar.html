@@ -1,45 +1,72 @@
 <mat-sidenav-container class="example-container" autosize>
   <mat-sidenav #sidenav mode="side" opened class="example-sidenav">
-    <mat-list>
-      <mat-list-item>
-        <mat-icon matListItemIcon>home</mat-icon>
-        <div matListItemTitle>Home</div>
-      </mat-list-item>
+    <mat-nav-list>
+      <a mat-list-item routerLink="/dashboard">
+        <mat-icon>dashboard</mat-icon>
+        <span class="menu-title">Dashboard</span>
+      </a>
 
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <mat-icon>menu</mat-icon>
-            Students
+            <mat-icon>school</mat-icon>
+            Masters
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <mat-list>
-          <mat-list-item>
-            <div matListItemTitle>List Students</div>
-          </mat-list-item>
-          <mat-list-item>
-            <div matListItemTitle>Add Student</div>
-          </mat-list-item>
-        </mat-list>
+        <mat-nav-list>
+          <a mat-list-item routerLink="/student">
+            <mat-icon>person_pin</mat-icon>
+            <span>Student</span>
+          </a>
+          <a mat-list-item routerLink="/teacher">
+            <mat-icon>account_circle</mat-icon>
+            <span>Teacher</span>
+          </a>
+          <a mat-list-item routerLink="/course">
+            <mat-icon>person_add</mat-icon>
+            <span>Course</span>
+          </a>
+        </mat-nav-list>
       </mat-expansion-panel>
 
-      <mat-expansion-panel>
+<!--       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <mat-icon>menu</mat-icon>
+            <mat-icon>person</mat-icon>
             Teachers
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <mat-list>
-          <mat-list-item>
-            <div matListItemTitle>List Teachers</div>
-          </mat-list-item>
-          <mat-list-item>
-            <div matListItemTitle>Add Teacher</div>
-          </mat-list-item>
-        </mat-list>
-      </mat-expansion-panel>
-    </mat-list>
+        <mat-nav-list>
+          <a mat-list-item routerLink="/teacher">
+            <mat-icon>list</mat-icon>
+            <span>List Teachers</span>
+          </a>
+          <a mat-list-item routerLink="/teacher/add-teacher">
+            <mat-icon>person_add</mat-icon>
+            <span>Add Teacher</span>
+          </a>
+        </mat-nav-list>
+      </mat-expansion-panel> -->
+
+  <!--     <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>book</mat-icon>
+            Courses
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-nav-list>
+          <a mat-list-item routerLink="/course">
+            <mat-icon>list</mat-icon>
+            <span>List Courses</span>
+          </a>
+          <a mat-list-item routerLink="/course/add-course">
+            <mat-icon>add</mat-icon>
+            <span>Add Course</span>
+          </a>
+        </mat-nav-list>
+      </mat-expansion-panel> -->
+    </mat-nav-list>
   </mat-sidenav>
 
   <div class="example-sidenav-content">
@@ -47,7 +74,7 @@
       <button mat-icon-button (click)="sidenav.toggle()">
         <mat-icon>menu</mat-icon>
       </button>
-      <span>My App</span>
+      <span>School Management</span>
     </mat-toolbar>
     <router-outlet></router-outlet>
   </div>
