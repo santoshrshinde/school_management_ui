@@ -6,25 +6,29 @@ import { inject, Injectable } from '@angular/core';
 })
 export class Common {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:5000/students'; // Define base URL
+  private apiUrl = 'http://localhost:5000'; // Define base URL
 
   saveStudent(data: any) {
-    return this.http.post(this.apiUrl, data);
+    return this.http.post(this.apiUrl + 'students', data);
   }
 
   getStudent() {
-    return this.http.get(this.apiUrl);
+    return this.http.get(this.apiUrl + '/students');
   }
 
   getStudentById(id: number) {
-    return this.http.get(`${this.apiUrl}/${id}`);
+    return this.http.get(`${this.apiUrl + '/students'}/${id}`);
   }
 
   updateStudent(id: number, data: any) {
-    return this.http.put(`${this.apiUrl}/${id}`, data);
+    return this.http.put(`${this.apiUrl + '/students'}/${id}`, data);
   }
 
   deleteStudent(id: number) {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+    return this.http.delete(`${this.apiUrl + '/students'}/${id}`);
+  }
+
+  getTeacher() {
+    return this.http.get(this.apiUrl + '/teachers');
   }
 }
