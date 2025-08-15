@@ -31,4 +31,13 @@ export class Common {
   getTeacher() {
     return this.http.get(this.apiUrl + '/teachers');
   }
+
+  
+  saveTeacher(data: any) {
+    return this.http.post(this.apiUrl + '/teachers', data);
+  }
+
+  getTeacherById(id: number) {
+    return this.http.get(`${this.apiUrl + '/teachers'}/${id}`);
+  }
 }

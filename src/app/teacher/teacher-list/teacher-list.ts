@@ -35,7 +35,7 @@ export class TeacherList {
   private _liveAnnouncer = inject(LiveAnnouncer);
   private toastr: ToastrService = inject(ToastrService);
   constructor(private router: Router) {
-    this.getStudents();
+    this.getTeachers();
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -46,7 +46,7 @@ export class TeacherList {
     this.router.navigateByUrl('teacher/add-teacher');
   }
 
-  getStudents() {
+  getTeachers() {
     this.commonService.getTeacher().subscribe({
       next: (data: any) => {
         this.dataSource.data = data;
@@ -66,7 +66,7 @@ export class TeacherList {
       next: (response) => {
         console.log('Delete Response', response);
         this.toastr.success('Teacher deleted successfully', 'Success');
-        this.getStudents(); // Refresh the student list
+        this.getTeachers(); // Refresh the student list
       },
       error: (err) => {
         console.error('Failed to delete teacher:', err);
