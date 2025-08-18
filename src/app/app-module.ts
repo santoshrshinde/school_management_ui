@@ -15,12 +15,16 @@ import { ToastrModule } from 'ngx-toastr';
 import { Sidebar } from './sidebar/sidebar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AuthInterceptor } from './core/auth-interceptor';
+//import { CourseModule } from './course/course-module';
+
 
 @NgModule({
   declarations: [
     App,
+
     NotFound,
-    Sidebar
+    Sidebar,
+  
   ],
   imports: [
     BrowserModule,
@@ -32,8 +36,9 @@ import { AuthInterceptor } from './core/auth-interceptor';
     MatIconModule,
     MatButtonModule,
     MatToolbarModule,
-    MatExpansionModule
-  ],
+    MatExpansionModule,
+    //CourseModule
+],
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
