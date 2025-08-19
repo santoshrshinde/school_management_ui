@@ -55,25 +55,26 @@ export class Common {
   }
 
   // =======================
-  // COURSE METHODS
-  // =======================
-  getCourse() {
-    return this.http.get(this.apiUrl + '/courses');
-  }
+// COURSE METHODS
+// =======================
+getCourse() {
+  return this.http.get(this.apiUrl + '/courses');  // plural
+}
 
-  saveCourse(data: any) {
-    return this.http.post(this.apiUrl + '/courses', data);
-  }
+saveCourse(data: any) {
+  return this.http.post(this.apiUrl + '/courses', data);
+}
 
-  getCourseById(id: number) {
-    return this.http.get(`${this.apiUrl}/courses/${id}`);
-  }
+getCourseById(id: number) {
+  return this.http.get(`${this.apiUrl}/courses/${id}`);
+}
 
-  updateCourse(id: number, data: any) {
-    return this.http.put(`${this.apiUrl}/courses/${id}`, data);
-  }
+updateCourse(id: number, data: any) {
+  return this.http.put(`${this.apiUrl}/courses/${id}`, data);
+}
 
-  deleteCourse(id: number) {
-    return this.http.delete(`${this.apiUrl}/courses/${id}`);
-  }
+deleteCourse(id: number) {
+  return this.http.delete(`${this.apiUrl}/courses/${id}`);
+}
+
 }

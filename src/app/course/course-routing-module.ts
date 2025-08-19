@@ -22,7 +22,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: 'student-list',
+        redirectTo: 'list-course',
         pathMatch: 'full'
       }
     ]

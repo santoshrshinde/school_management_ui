@@ -2,7 +2,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatExpansionModule } from '@angular/material/expansion'; // Import MatExpansionModule
+import { MatExpansionModule } from '@angular/material/expansion';
 import { NgModule, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -15,30 +15,26 @@ import { ToastrModule } from 'ngx-toastr';
 import { Sidebar } from './sidebar/sidebar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AuthInterceptor } from './core/auth-interceptor';
-//import { CourseModule } from './course/course-module';
-
 
 @NgModule({
   declarations: [
     App,
-
     NotFound,
-    Sidebar,
-  
+    Sidebar
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule, // required animations module
-    ToastrModule.forRoot(), // ToastrModule added
+    BrowserAnimationsModule,  // required animations module
+    ToastrModule.forRoot(),   // ToastrModule added
     MatSidenavModule,
     MatListModule,
     MatIconModule,
     MatButtonModule,
     MatToolbarModule,
     MatExpansionModule,
-    //CourseModule
-],
+    
+  ],
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),

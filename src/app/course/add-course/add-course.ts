@@ -4,7 +4,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { Common } from '../../serices/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Course } from '../course';   // ✅ correct path
+import { Course } from '../course.model';   // ✅ correct path
 
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {

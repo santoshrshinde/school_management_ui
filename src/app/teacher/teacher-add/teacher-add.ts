@@ -50,7 +50,7 @@ export class TeacherAdd {
     console.log(this.teacher);
     if (this.teacherID) {
       // Update existing teacher
-      this.commonService.updateStudent(this.teacherID, this.teacher).subscribe({
+      this.commonService.updateTeacher(this.teacherID, this.teacher).subscribe({
         next: (value: any) => {
           this.toastr.success('Teacher updated successfully', 'Success');
           this.router.navigateByUrl('/teacher');

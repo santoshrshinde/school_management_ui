@@ -17,11 +17,14 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { AddCourse } from './add-course/add-course';
 import { ListCourse } from './list-course/list-course';
+import { CourseRoutingModule } from './course-routing-module';
+import { Course } from './course';
 
 @NgModule({
   declarations: [
     AddCourse,
-    ListCourse
+    ListCourse,
+    Course
   ],
   imports: [
     CommonModule,
@@ -38,7 +41,7 @@ import { ListCourse } from './list-course/list-course';
     MatInputModule,
     MatFormFieldModule,
     MatSlideToggleModule,
-    
+    CourseRoutingModule
   ]
 })
 export class CourseModule { }
