@@ -54,8 +54,8 @@ export class TeacherList {
         this.dataSource.sort = this.sort;
       },
       error: (err) => {
-        console.error('Failed to load teacher:', err);
-        this.toastr.error('Failed to load teacher', 'Error');
+        console.error('Failed to load teachers:', err);
+        this.toastr.error('Failed to load teachers', 'Error');
       }
     });
   }

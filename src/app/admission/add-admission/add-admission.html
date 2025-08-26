@@ -1,0 +1,43 @@
+<form class="admission-form">
+  <!-- Student Dropdown -->
+  <mat-form-field class="admission-full-width">
+    <mat-label>Student</mat-label>
+    <mat-select [(ngModel)]="admission.StudentID" [ngModelOptions]="{standalone: true}">
+      <mat-option *ngFor="let std of students" [value]="std.StudentID">
+        {{ std.Name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Course Dropdown -->
+  <mat-form-field class="admission-full-width">
+    <mat-label>Course</mat-label>
+    <mat-select [(ngModel)]="admission.CourseID" [ngModelOptions]="{standalone: true}">
+      <mat-option *ngFor="let course of courses" [value]="course.CourseID">
+        {{ course.CourseName }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Admission Date -->
+  <mat-form-field class="admission-full-width">
+    <mat-label>Admission Date</mat-label>
+    <input type="date" matInput [(ngModel)]="admission.AdmissionDate"
+           placeholder="dd-mm-yyyy" [ngModelOptions]="{standalone: true}">
+  </mat-form-field>
+
+  <!-- Status -->
+  <mat-form-field class="admission-full-width">
+    <mat-label>Status</mat-label>
+    <mat-select [(ngModel)]="admission.Status" [ngModelOptions]="{standalone: true}">
+      <mat-option value="Active">Active</mat-option>
+      <mat-option value="Completed">Completed</mat-option>
+      <mat-option value="Pending">Pending</mat-option>
+      <mat-option value="Cancelled">Cancelled</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Buttons -->
+  <button type="button" mat-raised-button color="primary" class="btn-sc" (click)="save()">Save</button>
+  <button type="button" mat-raised-button color="warn" class="btn-sc" (click)="cancel()">Cancel</button>
+</form>

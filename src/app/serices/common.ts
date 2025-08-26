@@ -15,7 +15,7 @@ export class Common {
     return this.http.post(this.apiUrl + '/students', data);
   }
 
-  getStudent() {
+  getStudent() {   // <-- plural
     return this.http.get(this.apiUrl + '/students');
   }
 
@@ -55,26 +55,48 @@ export class Common {
   }
 
   // =======================
-// COURSE METHODS
-// =======================
-getCourse() {
-  return this.http.get(this.apiUrl + '/courses');  // plural
-}
+  // COURSE METHODS
+  // =======================
+  getCourse() {   // <-- plural
+    return this.http.get(this.apiUrl + '/courses');
+  }
 
-saveCourse(data: any) {
-  return this.http.post(this.apiUrl + '/courses', data);
-}
+  saveCourse(data: any) {
+    return this.http.post(this.apiUrl + '/courses', data);
+  }
 
-getCourseById(id: number) {
-  return this.http.get(`${this.apiUrl}/courses/${id}`);
-}
+  getCourseById(id: number) {
+    return this.http.get(`${this.apiUrl}/courses/${id}`);
+  }
 
-updateCourse(id: number, data: any) {
-  return this.http.put(`${this.apiUrl}/courses/${id}`, data);
-}
+  updateCourse(id: number, data: any) {
+    return this.http.put(`${this.apiUrl}/courses/${id}`, data);
+  }
 
-deleteCourse(id: number) {
-  return this.http.delete(`${this.apiUrl}/courses/${id}`);
-}
+  deleteCourse(id: number) {
+    return this.http.delete(`${this.apiUrl}/courses/${id}`);
+  }
 
+  // =======================
+  // ADMISSION METHODS
+  // =======================
+  getAdmission() {   // <-- plural
+    return this.http.get(this.apiUrl + '/admission');
+  }
+
+  saveAdmission(data: any) {
+    return this.http.post(this.apiUrl + '/admission', data);
+  }
+
+  getAdmissionById(id: number) {
+    return this.http.get(`${this.apiUrl}/admission/${id}`);
+  }
+
+  updateAdmission(id: number, data: any) {
+    return this.http.put(`${this.apiUrl}/admission/${id}`, data);
+  }
+
+  deleteAdmission(id: number) {
+    return this.http.delete(`${this.apiUrl}/admission/${id}`);
+  }
 }

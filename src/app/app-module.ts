@@ -16,17 +16,19 @@ import { Sidebar } from './sidebar/sidebar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AuthInterceptor } from './core/auth-interceptor';
 
+
 @NgModule({
   declarations: [
     App,
     NotFound,
-    Sidebar
+    Sidebar,
+  
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule,  // required animations module
-    ToastrModule.forRoot(),   // ToastrModule added
+    BrowserAnimationsModule, // required animations module
+    ToastrModule.forRoot(), // ToastrModule added
     MatSidenavModule,
     MatListModule,
     MatIconModule,
@@ -34,7 +36,8 @@ import { AuthInterceptor } from './core/auth-interceptor';
     MatToolbarModule,
     MatExpansionModule,
     
-  ],
+    
+],
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
