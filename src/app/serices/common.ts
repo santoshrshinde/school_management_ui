@@ -15,7 +15,7 @@ export class Common {
     return this.http.post(this.apiUrl + '/students', data);
   }
 
-  getStudent() {   // <-- plural
+  getStudent() {
     return this.http.get(this.apiUrl + '/students');
   }
 
@@ -57,7 +57,7 @@ export class Common {
   // =======================
   // COURSE METHODS
   // =======================
-  getCourse() {   // <-- plural
+  getCourse() {
     return this.http.get(this.apiUrl + '/courses');
   }
 
@@ -80,7 +80,7 @@ export class Common {
   // =======================
   // ADMISSION METHODS
   // =======================
-  getAdmission() {   // <-- plural
+  getAdmission() {
     return this.http.get(this.apiUrl + '/admission');
   }
 
@@ -98,5 +98,28 @@ export class Common {
 
   deleteAdmission(id: number) {
     return this.http.delete(`${this.apiUrl}/admission/${id}`);
+  }
+
+  // =======================
+  // SCHOOLBUS METHODS
+  // =======================
+  getSchoolbus() {
+    return this.http.get(this.apiUrl + '/schoolbus');
+  }
+
+  saveSchoolbus(data: any) {
+    return this.http.post(this.apiUrl + '/schoolbus', data);
+  }
+
+  getSchoolbusById(id: number) {
+    return this.http.get(`${this.apiUrl}/schoolbus/${id}`);
+  }
+
+  updateSchoolbus(id: number, data: any) {
+    return this.http.put(`${this.apiUrl}/schoolbus/${id}`, data);
+  }
+
+  deleteSchoolbus(id: number) {
+    return this.http.delete(`${this.apiUrl}/schoolbus/${id}`);
   }
 }

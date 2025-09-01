@@ -1,0 +1,15 @@
+<form class="schoolbus-form">
+    <mat-form-field class="schoolbus-full-width">
+      <mat-label>BusNumber</mat-label>
+      <input type="text" matInput  [(ngModel)]="schoolbus.BusNumber"
+             placeholder="Enter BusNumber" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+    <mat-form-field class="schoolbus-full-width">
+      <mat-label>Driver</mat-label>
+      <input type="text" matInput  [(ngModel)]="schoolbus.Driver"
+             placeholder="Enter Driver" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+   
+    <button type="button" matButton="outlined" class="btn-sc" (click)="save()">Save</button>
+    <button type="button" matButton="outlined" class="btn-sc" (click)="cancel()">Cancel</button>
+  </form>
