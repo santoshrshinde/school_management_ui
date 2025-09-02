@@ -24,7 +24,7 @@ export interface Admission {
 })
 export class ListAdmission implements AfterViewInit {
   // 👇 MUST match matColumnDef in HTML
-  displayedColumns: string[] = ['No', 'StudentID', 'CourseID', 'AdmissionDate', 'Action'];
+  displayedColumns: string[] = ['No', 'StudentName', 'CourseName', 'AdmissionDate', 'Action'];
 
   dataSource = new MatTableDataSource<Admission>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;

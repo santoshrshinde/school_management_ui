@@ -11,19 +11,19 @@
   </ng-container>
 
   <!-- Student ID Column -->
-  <ng-container matColumnDef="StudentID">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Student ID">
-      Student ID
+  <ng-container matColumnDef="StudentName">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Student Name">
+      Student Name
     </th>
-    <td mat-cell *matCellDef="let element"> {{ element.StudentID }} </td>
+    <td mat-cell *matCellDef="let element"> {{ element.StudentName}} </td>
   </ng-container>
 
   <!-- Course ID Column -->
-  <ng-container matColumnDef="CourseID">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Course ID">
-      Course ID
+  <ng-container matColumnDef="CourseName">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Course Name">
+      Course Name
     </th>
-    <td mat-cell *matCellDef="let element"> {{ element.CourseID }} </td>
+    <td mat-cell *matCellDef="let element"> {{ element.CourseName }} </td>
   </ng-container>
 
   <!-- Admission Date Column -->
