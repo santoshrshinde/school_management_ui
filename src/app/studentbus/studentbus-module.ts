@@ -16,6 +16,7 @@ import { MatChipInput } from '@angular/material/chips';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSortModule } from '@angular/material/sort';
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatInputModule,
     MatFormFieldModule,
     MatSlideToggleModule,
+    MatSortModule,
     StudentbusRoutingModule
   ]
 })
