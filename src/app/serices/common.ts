@@ -122,4 +122,26 @@ export class Common {
   deleteSchoolbus(id: number) {
     return this.http.delete(`${this.apiUrl}/schoolbus/${id}`);
   }
+   // =======================
+  // STUDENTBUS METHODS
+  // =======================
+  getStudentbus() {
+    return this.http.get(this.apiUrl + '/studentbus');
+  }
+
+  saveStudentbus(data: any) {
+    return this.http.post(this.apiUrl + '/studentbus', data);
+  }
+
+  getStudentbusById(id: number) {
+    return this.http.get(`${this.apiUrl}/studebtbus/${id}`);
+  }
+
+  updateStudentbus(id: number, data: any) {
+    return this.http.put(`${this.apiUrl}/studentbus/${id}`, data);
+  }
+
+  deleteStudentbus(id: number) {
+    return this.http.delete(`${this.apiUrl}/studentbus/${id}`);
+  }
 }
