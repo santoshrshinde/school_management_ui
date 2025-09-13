@@ -31,6 +31,10 @@ export const routes: Routes = [
         path:'studentbus',
         loadChildren: () => import('./studentbus/studentbus-module').then((mod) => mod.StudentbusModule)
     },
+     {
+        path:'fees',
+        loadChildren: () => import('./fees/fees-module').then((mod) => mod.FeesModule)
+    },
     {
         path: '',
         redirectTo: '/student',

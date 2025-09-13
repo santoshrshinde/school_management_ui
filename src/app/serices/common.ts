@@ -122,7 +122,8 @@ export class Common {
   deleteSchoolbus(id: number) {
     return this.http.delete(`${this.apiUrl}/schoolbus/${id}`);
   }
-   // =======================
+
+  // =======================
   // STUDENTBUS METHODS
   // =======================
   getStudentbus() {
@@ -134,7 +135,7 @@ export class Common {
   }
 
   getStudentbusById(id: number) {
-    return this.http.get(`${this.apiUrl}/studebtbus/${id}`);
+    return this.http.get(`${this.apiUrl}/studentbus/${id}`);
   }
 
   updateStudentbus(id: number, data: any) {
@@ -143,5 +144,28 @@ export class Common {
 
   deleteStudentbus(id: number) {
     return this.http.delete(`${this.apiUrl}/studentbus/${id}`);
+  }
+
+  // =======================
+  // FEES METHODS
+  // =======================
+  getFees() {
+    return this.http.get(this.apiUrl + '/fees');
+  }
+
+  saveFees(data: any) {
+    return this.http.post(this.apiUrl + '/fees', data);
+  }
+
+  getFeesById(id: number) {
+    return this.http.get(`${this.apiUrl}/fees/${id}`);
+  }
+
+  updateFees(id: number, data: any) {
+    return this.http.put(`${this.apiUrl}/fees/${id}`, data);
+  }
+
+  deleteFees(id: number) {
+    return this.http.delete(`${this.apiUrl}/fees/${id}`);
   }
 }

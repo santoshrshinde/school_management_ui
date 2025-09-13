@@ -1,0 +1,76 @@
+<button (click)="addFees()" mat-raised-button color="primary">
+  Add Fees
+</button>
+
+<table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
+    class="mat-elevation-z8">
+
+    <!-- Amount -->
+    <ng-container matColumnDef="Amount">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Amount">
+            Amount
+        </th>
+        <td mat-cell *matCellDef="let element"> {{element.Amount}} </td>
+    </ng-container>
+
+    <!-- DueDate -->
+    <ng-container matColumnDef="DueDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Due Date">
+            Due Date
+        </th>
+        <td mat-cell *matCellDef="let element"> {{element.DueDate | date}} </td>
+    </ng-container>
+
+    <!-- PaidAmount -->
+    <ng-container matColumnDef="PaidAmount">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Paid Amount">
+            Paid Amount
+        </th>
+        <td mat-cell *matCellDef="let element"> {{element.PaidAmount}} </td>
+    </ng-container>
+
+    <!-- StudentID -->
+    <ng-container matColumnDef="StudentID">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Student ID">
+            Student ID
+        </th>
+        <td mat-cell *matCellDef="let element"> {{element.StudentID}} </td>
+    </ng-container>
+
+    <!-- TotalFee -->
+    <ng-container matColumnDef="TotalFee">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Total Fee">
+            Total Fee
+        </th>
+        <td mat-cell *matCellDef="let element"> {{element.TotalFee}} </td>
+    </ng-container>
+
+    <!-- Action -->
+    <ng-container matColumnDef="Action">
+        <th mat-header-cell *matHeaderCellDef> Action </th>
+        <td mat-cell *matCellDef="let element">
+          <button
+            mat-icon-button
+            matTooltip="Edit"
+            color="primary"
+            (click)="edit(element.FeeID)">
+            <mat-icon>edit</mat-icon>
+          </button>
+
+          <button
+            mat-icon-button
+            matTooltip="Delete"
+            color="warn"
+            (click)="delete(element.FeeID)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+    </ng-container>
+
+    <!-- Rows -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of fees">
+</mat-paginator>
