@@ -17,6 +17,9 @@ import { MatChipInput } from '@angular/material/chips';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { M } from "../../../node_modules/@angular/material/option.d-BcvS44bt";
+import { MatOptionModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
 
 
 @NgModule({
@@ -30,7 +33,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatTableModule,
     MatPaginatorModule,
     MatIconModule,
-    MatSortModule, 
+    MatSortModule,
     FormsModule,
     MatButtonModule,
     MatCheckboxModule,
@@ -39,8 +42,9 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatInputModule,
     MatFormFieldModule,
     MatSlideToggleModule,
-    FeesRoutingModule
-
-  ]
+    FeesRoutingModule,
+    MatOptionModule,
+    MatSelectModule
+]
 })
 export class FeesModule { }

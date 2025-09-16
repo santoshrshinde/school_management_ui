@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
 })
 export class ListFees implements AfterViewInit {
   // ✅ API ke sath match kiya
-  displayedColumns: string[] = ['Amount', 'DueDate', 'PaidAmount', 'StudentID', 'TotalFee', 'Action'];
+  displayedColumns: string[] = ['Amount', 'DueDate', 'PaidAmount', 'StudentName', 'TotalFee', 'Action'];
 
   dataSource = new MatTableDataSource<Fees>([]);
   selection = new SelectionModel<Fees>(true, []);

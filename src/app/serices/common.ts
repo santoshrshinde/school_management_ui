@@ -161,8 +161,8 @@ export class Common {
     return this.http.get(`${this.apiUrl}/fees/${id}`);
   }
 
-  updateFees(id: number, data: any) {
-    return this.http.put(`${this.apiUrl}/fees/${id}`, data);
+  updateFees(id: number, fees: any) {
+    return this.http.put(`${this.apiUrl}/fees/${id}`, fees);
   }
 
   deleteFees(id: number) {

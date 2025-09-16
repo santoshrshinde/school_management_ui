@@ -1,8 +1,8 @@
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
-import { Common } from '../../serices/common';   // ✅ fixed spelling
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { Common } from '../../serices/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Fees } from '../fees'; 
+import { Fees } from '../fees';
 
 @Component({
   selector: 'app-add-fees',
@@ -10,7 +10,7 @@ import { Fees } from '../fees';
   templateUrl: './add-fees.html',
   styleUrls: ['./add-fees.sass']
 })
-export class AddFees {
+export class AddFees implements OnInit {
   private commonService = inject(Common);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
@@ -23,12 +23,25 @@ export class AddFees {
     FeeID: 0,
     StudentID: 0,
     Amount: 0,
-    DueDate: '',     // 🔎 can also use Date | string
+    DueDate: '',
     PaidAmount: 0,
     TotalFee: 0
   };
 
-  constructor() {
+  students: any[] = []; // ✅ Student list for dropdown
+
+  ngOnInit(): void {
+    // ✅ Load Students
+    this.commonService.getStudent().subscribe({
+      next: (data: any) => {
+        this.students = data;
+      },
+      error: (err) => {
+        console.error('Failed to load students', err);
+      }
+    });
+
+    // ✅ Load Fee if editing
     this.route.params.subscribe(params => {
       if (params['id']) {
         this.feeId = +params['id'];
@@ -58,7 +71,7 @@ export class AddFees {
           this.router.navigateByUrl('/fees');
         },
         error: (err) => {
-          console.error('Error', err);
+          console.log('Error', err);
           this.toastr.error('Failed to update fees', 'Error');
         }
       });
