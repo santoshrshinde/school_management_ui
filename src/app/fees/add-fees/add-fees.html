@@ -13,14 +13,14 @@
   </mat-form-field>
 
   <!-- Student Dropdown -->
-  <mat-form-field class="fees-full-width">
-    <mat-label>Student Name</mat-label>
-    <mat-select [(ngModel)]="fees.StudentID" name="student" [ngModelOptions]="{standalone: true}">
-      <mat-option *ngFor="let student of students" [value]="student.StudentID">
-        {{ student.Name }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+<mat-form-field appearance="fill">
+  <mat-label>Student</mat-label>
+  <mat-select [(ngModel)]="fees.StudentID" name="StudentID">
+    <mat-option *ngFor="let std of students" [value]="std.StudentID">
+      {{ std.Name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
 
   <!-- Paid Amount -->
   <mat-form-field class="fees-full-width">

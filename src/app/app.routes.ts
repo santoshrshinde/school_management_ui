@@ -35,9 +35,13 @@ export const routes: Routes = [
         path:'fees',
         loadChildren: () => import('./fees/fees-module').then((mod) => mod.FeesModule)
     },
+     {
+        path:'library',
+        loadChildren: () => import('./library/library-module').then((mod) => mod.libraryModule)
+    },
     {
         path: '',
-        redirectTo: '/student',
+        redirectTo: 'dashboard',
         pathMatch: 'full'
     },
     { path: '**', component: NotFound },

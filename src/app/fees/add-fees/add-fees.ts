@@ -16,32 +16,33 @@ export class AddFees implements OnInit {
   private route = inject(ActivatedRoute);
   private cdr = inject(ChangeDetectorRef);
   private toastr: ToastrService = inject(ToastrService);
+  fees:any={
+    FeesID:'',
+    Amount:'',
+    DueDate:'',
+    StudentID:'',
+    PaidAmount:'',
+    TotalFee:''
+
+  }
 
   feeId: number | null = null;
-
-  fees: Fees = {
-    FeeID: 0,
-    StudentID: 0,
-    Amount: 0,
-    DueDate: '',
-    PaidAmount: 0,
-    TotalFee: 0
-  };
-
-  students: any[] = []; // ✅ Student list for dropdown
+  
+  students: any[] = [];
 
   ngOnInit(): void {
-    // ✅ Load Students
+    // Load all students for dropdown
     this.commonService.getStudent().subscribe({
       next: (data: any) => {
-        this.students = data;
+        this.students= data;
       },
       error: (err) => {
         console.error('Failed to load students', err);
+        this.toastr.error('Failed to load students', 'Error');
       }
     });
 
-    // ✅ Load Fee if editing
+    // Check if editing an existing fee
     this.route.params.subscribe(params => {
       if (params['id']) {
         this.feeId = +params['id'];
@@ -65,17 +66,19 @@ export class AddFees implements OnInit {
 
   save() {
     if (this.feeId) {
+      // Update existing Fees
       this.commonService.updateFees(this.feeId, this.fees).subscribe({
         next: () => {
           this.toastr.success('Fees updated successfully', 'Success');
           this.router.navigateByUrl('/fees');
         },
         error: (err) => {
-          console.log('Error', err);
+          console.error('Error', err);
           this.toastr.error('Failed to update fees', 'Error');
         }
       });
     } else {
+      // Add new Fees
       this.commonService.saveFees(this.fees).subscribe({
         next: () => {
           this.toastr.success('Fees added successfully', 'Success');

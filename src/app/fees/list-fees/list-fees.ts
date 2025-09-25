@@ -1,30 +1,46 @@
-import { AfterViewInit, Component, inject, ViewChild } from '@angular/core';
-import { Fees } from '../fees';
-import { MatTableDataSource } from '@angular/material/table';
-import { SelectionModel } from '@angular/cdk/collections';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { AfterViewInit, Component, ViewChild, inject } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
-import { Common } from '../../serices/common';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { ToastrService } from 'ngx-toastr';
+import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { Common } from '../../serices/common';
+import { SelectionModel } from '@angular/cdk/collections';
+import { ToastrService } from 'ngx-toastr';
+
+export interface Fees {
+  FeesID: number;
+  Amount: number;
+  DueDate: string;      // 'yyyy-MM-dd' format from API
+  StudentID: number;
+  PaidAmount: number;
+  TotalFee: number;
+  StudentName?: string; // extra for table display
+}
 
 @Component({
   selector: 'app-list-fees',
   standalone: false,
   templateUrl: './list-fees.html',
-  styleUrls: ['./list-fees.sass']
+  styleUrls: ['./list-fees.sass'],
 })
 export class ListFees implements AfterViewInit {
-  // ✅ API ke sath match kiya
-  displayedColumns: string[] = ['Amount', 'DueDate', 'PaidAmount', 'StudentName', 'TotalFee', 'Action'];
+  // 👇 MUST match matColumnDef in HTML
+  displayedColumns: string[] = [
+    'No',
+    'Amount',
+    'DueDate',
+    'PaidAmount',
+    'StudentName',
+    'TotalFee',
+    'Action'
+  ];
 
   dataSource = new MatTableDataSource<Fees>([]);
-  selection = new SelectionModel<Fees>(true, []);
-  fees: Fees[] = [];
-
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  selection = new SelectionModel<Fees>(true, []);
+  fees: Fees[] = [];
 
   private commonService = inject(Common);
   private _liveAnnouncer = inject(LiveAnnouncer);
@@ -39,12 +55,10 @@ export class ListFees implements AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  // ✅ Navigate to Add Fees
   addFees() {
     this.router.navigateByUrl('/fees/add-fees');
   }
 
-  // ✅ API Call to fetch fees list
   loadFees() {
     this.commonService.getFees().subscribe({
       next: (data: any) => {
@@ -56,61 +70,54 @@ export class ListFees implements AfterViewInit {
       error: (err: any) => {
         console.error('Failed to load Fees:', err);
         this.toastr.error('Failed to load Fees', 'Error');
-      }
+      },
     });
   }
 
-  // ✅ Delete Fees
-  delete(feeId: number) {
-    console.log('Deleting FeeID:', feeId);
-    this.commonService.deleteFees(feeId).subscribe({
+  delete(id: number) {
+    console.log('ID', id);
+    this.commonService.deleteFees(id).subscribe({
       next: () => {
         this.toastr.success('Fees deleted successfully', 'Success');
-        this.loadFees(); // refresh list
+        this.loadFees(); // refresh
       },
       error: (err: any) => {
         console.error('Failed to delete Fees:', err);
         this.toastr.error('Failed to delete Fees', 'Error');
-      }
+      },
     });
   }
 
-  // ✅ Edit Fees
-  edit(feeId: number) {
-    this.router.navigate(['/fees/edit-fees', feeId]);
+  edit(id: number) {
+    this.router.navigate(['/fees/edit-fees', id]);
   }
 
-  // ✅ Announce sort change for screen readers
-  announceSortChange(sortState: Sort) {
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
-  }
-
-  // ✅ Select all toggle
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
 
+  removeSelectedRows() {
+    this.selection.selected.forEach(item => {
+      const index = this.fees.findIndex(d => d.FeesID === item.FeesID);
+      if (index > -1) this.fees.splice(index, 1);
+    });
+    this.dataSource.data = [...this.fees];
+    this.selection.clear();
+  }
+
   masterToggle() {
     this.isAllSelected()
       ? this.selection.clear()
-      : this.dataSource.data.forEach((row: Fees) => this.selection.select(row));
+      : this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
-  // ✅ Remove selected rows (from UI only)
-  removeSelectedRows() {
-    this.selection.selected.forEach(item => {
-      let index: number = this.fees.findIndex((d: any) => d === item);
-      if (index >= 0) {
-        this.dataSource.data.splice(index, 1);
-      }
-    });
-    this.dataSource = new MatTableDataSource<Fees>(this.fees);
-    this.selection = new SelectionModel<Fees>(true, []);
+  announceSortChange(sortState: Sort) {
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
   }
 }

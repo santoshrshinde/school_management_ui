@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { Fees } from './fees';
+
 import { ListFees } from './list-fees/list-fees';
 import { AddFees } from './add-fees/add-fees';
+import { Fees } from './fees';
 
 const routes: Routes = [
   {
