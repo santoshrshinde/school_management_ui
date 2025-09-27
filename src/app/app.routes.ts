@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { NotFound } from './not-found/not-found';
 
 export const routes: Routes = [
-     
+
     {
         path: 'users',
         loadChildren: () => import('./users/users-module').then((mod) => mod.UsersModule)
@@ -16,28 +16,27 @@ export const routes: Routes = [
         loadChildren: () => import('./teacher/teacher-module').then((mod) => mod.TeacherModule)
     },
     {
-        path:'course',
+        path: 'course',
         loadChildren: () => import('./course/course-module').then((mod) => mod.CourseModule)
     },
     {
-        path:'admission',
+        path: 'admission',
         loadChildren: () => import('./admission/admission-module').then((mod) => mod.AdmissionModule)
     },
     {
-        path:'schoolbus',
+        path: 'schoolbus',
         loadChildren: () => import('./schoolbus/schoolbus-module').then((mod) => mod.SchoolbusModule)
     },
-     {
-        path:'studentbus',
+    {
+        path: 'studentbus',
         loadChildren: () => import('./studentbus/studentbus-module').then((mod) => mod.StudentbusModule)
+    }, {
+        path: 'fees',
+        loadChildren: () => import('./fees/fees-module').then(m => m.FeesModule)
     },
-     {
-        path:'fees',
-        loadChildren: () => import('./fees/fees-module').then((mod) => mod.FeesModule)
-    },
-     {
-        path:'library',
-        loadChildren: () => import('./library/library-module').then((mod) => mod.libraryModule)
+    {
+        path: 'library',
+        loadChildren: () => import('./library/library-module').then(m => m.libraryModule)
     },
     {
         path: '',

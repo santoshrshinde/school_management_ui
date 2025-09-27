@@ -6,11 +6,11 @@ import { AddBook } from './add-book/add-book';
 
 const routes: Routes = [
     {
-        path:'library',
+        path:'',
         component: library,
         children: [
           {
-            path: 'list-book',
+            path: 'list-books',
             component: ListBook
           },
           {
@@ -23,7 +23,7 @@ const routes: Routes = [
           },
           {
             path: '',
-            redirectTo: 'list-book',
+            redirectTo: 'list-books',
             pathMatch: 'full'
           }
         ]
