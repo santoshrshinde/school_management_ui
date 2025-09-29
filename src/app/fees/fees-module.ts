@@ -17,7 +17,6 @@ import { MatChipInput } from '@angular/material/chips';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { Fees } from './fees';
@@ -43,9 +42,9 @@ import { Fees } from './fees';
     MatInputModule,
     MatFormFieldModule,
     MatSlideToggleModule,
-    FeesRoutingModule,
     MatOptionModule,
-    MatSelectModule
+    MatSelectModule,
+    FeesRoutingModule,
 ]
 })
 export class FeesModule { }

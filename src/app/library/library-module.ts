@@ -20,7 +20,7 @@ import { FeesRoutingModule } from '../fees/fees-routing-module';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { library } from './library';
-import { RouterModule } from '@angular/router';
+
 
 
 @NgModule({
@@ -47,9 +47,8 @@ import { RouterModule } from '@angular/router';
     FeesRoutingModule,
     MatOptionModule,
     MatSelectModule,
-    libraryRoutingModule,
     MatChipsModule,
-    RouterModule
+    libraryRoutingModule,
   ]
 })
 export class libraryModule { }

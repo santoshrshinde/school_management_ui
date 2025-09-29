@@ -10,7 +10,7 @@ const routes: Routes = [
         component: library,
         children: [
           {
-            path: 'list-book',
+            path: 'list-books',
             component: ListBook
           },
           {
@@ -23,7 +23,7 @@ const routes: Routes = [
           },
           {
             path: '',
-            redirectTo: 'list-book',
+            redirectTo: 'list-books',
             pathMatch: 'full'
           }
         ]
