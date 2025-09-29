@@ -6,7 +6,7 @@ import { AddBook } from './add-book/add-book';
 
 const routes: Routes = [
     {
-        path:'library',
+        path:'',
         component: library,
         children: [
           {

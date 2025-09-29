@@ -25,12 +25,13 @@ import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
+    library,
     AddBook,
-    ListBook,
-    library
+    ListBook
+    
   ],
   imports: [
-   CommonModule,
+    CommonModule,
     MatTableModule,
     MatPaginatorModule,
     MatIconModule,
