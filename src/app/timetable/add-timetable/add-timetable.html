@@ -1,0 +1,35 @@
+<form>
+
+  
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Course</mat-label>
+    <mat-select [(ngModel)]="timetable.CourseID" name="CourseID" [ngModelOptions]="{standalone: true}">
+      <mat-option *ngFor="let course of courses" [value]="course.CourseID">{{course.CourseName}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Teacher</mat-label>
+    <mat-select [(ngModel)]="timetable.TeacherID" name="TeacherID" [ngModelOptions]="{standalone: true}">
+      <mat-option *ngFor="let teacher of teachers" [value]="teacher.TeacherID">{{teacher.Name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Day</mat-label>
+    <input matInput [(ngModel)]="timetable.Day" name="Day">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Time Slot</mat-label>
+    <input matInput [(ngModel)]="timetable.TimeSlot" name="TimeSlot">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Subject</mat-label>
+    <input matInput [(ngModel)]="timetable.Subject" name="Subject">
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="button" (click)="save()">Save</button>
+  <button mat-raised-button color="warn" type="button" (click)="cancel()">Cancel</button>
+</form>

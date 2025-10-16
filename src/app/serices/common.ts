@@ -196,4 +196,133 @@ export class Common {
   getAllBooks(): Observable<any> {
     return this.http.get(`${this.apiUrl}/library`);
   }
+
+  // =======================
+  // Book Issue METHODS
+  // =======================
+   getStudents(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/students`);
+  }
+
+  getBooks(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/library`);
+  }
+
+  getBookIssueById(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/bookissue/${id}`);
+  }
+
+  saveBookIssue(bookIssue: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/bookissue`, bookIssue);
+  }
+
+  updateBookIssue(id: number, bookIssue: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/bookissue/${id}`, bookIssue);
+  }
+
+  getBookIssues(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/bookissue`);
+  }
+
+  deleteBookIssue(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/bookissue/${id}`);
+  }
+
+   // ------------------- Timetable -------------------
+
+  // Timetable APIs
+  getTimetable() {
+    return this.http.get(`${this.apiUrl}/timetable/all`);
+  }
+
+  getTimetableById(id: number) {
+    return this.http.get(`${this.apiUrl}/timetable/${id}`);
+  }
+
+  saveTimetable(data: any) {
+    return this.http.post(`${this.apiUrl}/timetable/add`, data);
+  }
+
+  updateTimetable(id: number, data: any) {
+    return this.http.put(`${this.apiUrl}/timetable/update/${id}`, data);
+  }
+
+  deleteTimetable(id: number) {
+    return this.http.delete(`${this.apiUrl}/timetable/delete/${id}`);
+  }
+
+   // =================== Attendance ===================
+  getAttendance(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/attendance/`);
+  }
+
+  getAttendanceById(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/attendance/${id}`);
+  }
+
+  saveAttendance(attendance: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/attendance/`, attendance);
+  }
+
+  updateAttendance(id: number, attendance: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/attendance/${id}`, attendance);
+  }
+
+  deleteAttendance(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/attendance/${id}`);
+  }
+
+   // ==============================
+  // 🧾 EXAM APIs
+  // ==============================
+ // 🧾 EXAM APIs
+  getExam(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/exam/all`);
+  }
+
+  getExamById(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/exam/${id}`);
+  }
+
+  saveExam(exam: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/exam/add`, exam);
+  }
+
+  updateExam(id: number, data: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/exam/update/${id}`, data);
+  }
+
+  deleteExam(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/exam/delete/${id}`);
+  }
+
+  
+
+
+
+
+
+
+getResultById(id: number) {
+  return this.http.get(`http://localhost:5000/result/${id}`);
 }
+
+saveResult(data: any) {
+  return this.http.post('http://localhost:5000/result/add', data);
+}
+
+updateResult(id: number, data: any) {
+  return this.http.put(`http://localhost:5000/result/update/${id}`, data);
+}
+getResult() {
+  return this.http.get('http://localhost:5000/result/all');  // exact backend URL
+}
+
+
+deleteResult(id: number) {
+  return this.http.delete(`http://localhost:5000/result/delete/${id}`);
+}
+
+}
+
+ 

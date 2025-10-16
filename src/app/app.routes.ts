@@ -30,7 +30,8 @@ export const routes: Routes = [
     {
         path: 'studentbus',
         loadChildren: () => import('./studentbus/studentbus-module').then((mod) => mod.StudentbusModule)
-    }, {
+    }, 
+    {
         path: 'fees',
         loadChildren: () => import('./fees/fees-module').then(m => m.FeesModule)
     },
@@ -38,6 +39,28 @@ export const routes: Routes = [
         path: 'library',
         loadChildren: () => import('./library/library-module').then(m => m.libraryModule)
     },
+    {
+        path: 'timetable',
+        loadChildren: () => import('./timetable/timetable-module').then((mod) => mod.TimetableModule)
+    },
+    {
+        path: 'book-issue',
+        loadChildren: () => import('./book-issue/book-issue-module').then(m => m.BookIssueModule)
+    },
+   {
+        path: 'attendance',
+        loadChildren: () => import('./attendance/attendance-module').then((mod) => mod.AttendanceModule)
+    },
+     {
+        path: 'exam',
+        loadChildren: () => import('./exam/exam-module').then((mod) => mod.ExamModule)
+    },
+     {
+        path: 'result',
+        loadChildren: () => import('./result/result-module').then((mod) => mod.ResultModule)
+    },
+
+
     {
         path: '',
         redirectTo: 'dashboard',

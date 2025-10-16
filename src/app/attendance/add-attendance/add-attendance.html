@@ -1,0 +1,33 @@
+<form>
+
+  <!-- Student Dropdown -->
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Student</mat-label>
+    <mat-select [(ngModel)]="attendance.StudentID" name="StudentID" [ngModelOptions]="{standalone: true}">
+      <mat-option *ngFor="let student of students" [value]="student.StudentID">
+        {{student.studentName}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Date -->
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Date</mat-label>
+    <input matInput [matDatepicker]="picker" [(ngModel)]="attendance.Date" name="Date">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <!-- Status -->
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Status</mat-label>
+    <mat-select [(ngModel)]="attendance.Status" name="Status" [ngModelOptions]="{standalone: true}">
+      <mat-option value="Present">Present</mat-option>
+      <mat-option value="Absent">Absent</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="button" (click)="save()">Save</button>
+  <button mat-raised-button color="warn" type="button" (click)="cancel()">Cancel</button>
+
+</form>

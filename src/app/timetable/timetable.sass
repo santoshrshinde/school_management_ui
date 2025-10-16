@@ -1,0 +1,99 @@
+/* timetable.sass */
+
+/* General container for timetable pages */
+.timetable-container
+  padding: 20px
+  background-color: #f9f9f9
+  min-height: 100vh
+  font-family: Arial, sans-serif
+
+/* Page heading */
+.timetable-container h2
+  font-size: 24px
+  font-weight: 600
+  margin-bottom: 20px
+  color: #333
+
+/* Form styling */
+.timetable-form
+  background-color: #fff
+  padding: 20px
+  border-radius: 8px
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1)
+  margin-bottom: 30px
+
+.timetable-form label
+  display: block
+  font-weight: 500
+  margin-bottom: 5px
+  color: #555
+
+.timetable-form select,
+.timetable-form input
+  width: 100%
+  padding: 8px 12px
+  margin-bottom: 15px
+  border-radius: 4px
+  border: 1px solid #ccc
+  font-size: 14px
+  transition: border-color 0.3s
+
+.timetable-form select:focus,
+.timetable-form input:focus
+  border-color: #007bff
+  outline: none
+
+/* Buttons */
+.timetable-form .btn
+  padding: 10px 20px
+  border: none
+  border-radius: 4px
+  font-size: 14px
+  cursor: pointer
+  margin-right: 10px
+  transition: background-color 0.3s
+
+.timetable-form .btn-save
+  background-color: #28a745
+  color: #fff
+  &:hover
+    background-color: #218838
+
+.timetable-form .btn-cancel
+  background-color: #dc3545
+  color: #fff
+  &:hover
+    background-color: #c82333
+
+/* Table styling */
+.mat-table
+  background-color: #fff
+  border-radius: 8px
+  overflow: hidden
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05)
+
+.mat-header-row
+  background-color: #007bff
+  color: #fff
+  font-weight: 600
+
+.mat-row
+  &:nth-child(even)
+    background-color: #f1f1f1
+  &:hover
+    background-color: #e9ecef
+
+.mat-cell,
+.mat-header-cell
+  padding: 10px
+  text-align: left
+
+/* Pagination */
+.mat-paginator
+  margin-top: 15px
+
+/* Error/empty state */
+.no-data
+  text-align: center
+  padding: 20px
+  color: #999

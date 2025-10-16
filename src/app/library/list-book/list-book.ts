@@ -46,13 +46,13 @@ export class ListBook implements OnInit {
     this.router.navigateByUrl('/library/add-book');
   }
 
-  edit(bookId: number) {
-    this.router.navigateByUrl(`/library/add-book/${bookId}`);
+  edit(BookId: number) {
+    this.router.navigateByUrl(`/library/add-book/${BookId}`);
   }
 
-  delete(bookId: number) {
+  delete(BookId: number) {
     if (confirm('Are you sure you want to delete this book?')) {
-      this.commonSerice.deleteBook(bookId).subscribe({
+      this.commonSerice.deleteBook(BookId).subscribe({
         next: () => {
           this.toastr.success('Book deleted successfully', 'Success');
           this.loadBooks();

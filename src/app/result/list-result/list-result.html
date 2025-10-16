@@ -1,0 +1,58 @@
+<div class="result-list-container">
+
+  <!-- Add Result Button -->
+  <div class="button-group">
+    <button mat-raised-button color="primary" (click)="addResult()">Add Result</button>
+  </div>
+
+  <!-- Result Table -->
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+    <!-- Student Name Column -->
+    <ng-container matColumnDef="StudentName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Student Name</th>
+      <td mat-cell *matCellDef="let element"> {{element.StudentName}} </td>
+    </ng-container>
+
+    <!-- Exam Name Column -->
+    <ng-container matColumnDef="ExamName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Exam Name</th>
+      <td mat-cell *matCellDef="let element"> {{element.ExamName}} </td>
+    </ng-container>
+
+    <!-- Marks Obtained Column -->
+    <ng-container matColumnDef="MarksObtained">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Marks Obtained</th>
+      <td mat-cell *matCellDef="let element"> {{element.MarksObtained}} </td>
+    </ng-container>
+
+    <!-- Grade Column -->
+    <ng-container matColumnDef="Grade">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Grade</th>
+      <td mat-cell *matCellDef="let element"> {{element.Grade}} </td>
+    </ng-container>
+
+    <!-- Action Column -->
+    <ng-container matColumnDef="Action">
+      <th mat-header-cell *matHeaderCellDef>Action</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button color="primary" matTooltip="Edit" (click)="edit(element.ResultID)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" matTooltip="Delete" (click)="delete(element.ResultID)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Header and Row Definitions -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+  </table>
+
+  <!-- Paginator -->
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of results">
+  </mat-paginator>
+
+</div>

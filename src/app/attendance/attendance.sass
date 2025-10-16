@@ -1,0 +1,74 @@
+// ===========================
+// Attendance Component Styles
+// ===========================
+
+.full-width
+  width: 100%
+
+// Container for the table
+.attendance-container
+  padding: 20px
+  background-color: #f8f9fa
+  border-radius: 10px
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1)
+
+// Heading
+.attendance-container h2
+  font-size: 24px
+  font-weight: 600
+  margin-bottom: 20px
+  color: #333
+
+// Buttons
+button.mat-raised-button
+  margin-right: 10px
+  font-weight: 500
+
+button.mat-raised-button.primary
+  background-color: #1976d2
+  color: white
+  &:hover
+    background-color: #115293
+
+button.mat-raised-button.warn
+  background-color: #d32f2f
+  color: white
+  &:hover
+    background-color: #9a0007
+
+// Table styles
+.mat-elevation-z8
+  overflow: auto
+  border-radius: 8px
+
+.mat-header-row
+  background-color: #1976d2
+  color: white
+  font-weight: 600
+
+.mat-row
+  &:nth-child(even)
+    background-color: #5f12d2ff
+  &:hover
+    background-color: #148fe8ff
+    cursor: pointer
+
+.mat-cell, .mat-header-cell
+  padding: 10px 16px
+  text-align: left
+  font-size: 14px
+
+// Pagination
+.mat-paginator
+  margin-top: 10px
+  .mat-paginator-range-label
+    font-size: 14px
+  .mat-paginator-navigation-button
+    color: #1976d2
+    &:hover
+      background-color: rgba(25, 118, 210, 0.1)
+
+// Form fields (for filters or adding attendance)
+.mat-form-field
+  width: 100%
+  margin-bottom: 16px

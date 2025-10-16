@@ -1,0 +1,78 @@
+<button (click)="addBookIssue()" mat-button matButton="elevated">
+  Add Book Issue
+</button>
+
+<table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" class="mat-elevation-z8">
+
+  <!-- Index Column -->
+  <ng-container matColumnDef="No">
+    <th mat-header-cell *matHeaderCellDef> No. </th>
+    <td mat-cell *matCellDef="let element; let index = index"> {{ index + 1 }} </td>
+  </ng-container>
+
+  <!-- Student Name Column -->
+  <ng-container matColumnDef="StudentName">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Student Name">
+      Student Name
+    </th>
+    <td mat-cell *matCellDef="let element"> {{ element.StudentName }} </td>
+  </ng-container>
+
+  <!-- Book Name Column -->
+  <ng-container matColumnDef="BookName">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Book Name">
+      Book Name
+    </th>
+    <td mat-cell *matCellDef="let element"> {{ element.BookName }} </td>
+  </ng-container>
+
+  <!-- Issue Date Column -->
+  <ng-container matColumnDef="IssueDate">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Issue Date">
+      Issue Date
+    </th>
+    <td mat-cell *matCellDef="let element"> {{ element.IssueDate | date }} </td>
+  </ng-container>
+
+  <!-- Return Date Column -->
+  <ng-container matColumnDef="ReturnDate">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Return Date">
+      Return Date
+    </th>
+    <td mat-cell *matCellDef="let element"> {{ element.ReturnDate | date }} </td>
+  </ng-container>
+
+  <!-- Status Column -->
+  <ng-container matColumnDef="Status">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Status">
+      Status
+    </th>
+    <td mat-cell *matCellDef="let element"> {{ element.Status }} </td>
+  </ng-container>
+
+  <!-- Action Column -->
+  <ng-container matColumnDef="Action">
+    <th mat-header-cell *matHeaderCellDef> Action </th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-icon-button matTooltip="Edit" color="primary" (click)="edit(element.IssueID)">
+        <mat-icon>edit</mat-icon>
+      </button>
+
+      <button mat-icon-button matTooltip="Delete" color="warn" (click)="delete(element.IssueID)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <!-- Table Header and Rows -->
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+
+<!-- Paginator -->
+<mat-paginator
+  [pageSizeOptions]="[5, 10, 20]"
+  showFirstLastButtons
+  aria-label="Select page of book issues"
+>
+</mat-paginator>

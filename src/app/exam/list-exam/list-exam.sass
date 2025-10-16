@@ -1,0 +1,55 @@
+/* list-exam.sass */
+
+/* Container styling */
+.table-container
+  padding: 16px
+  background-color: #fdf0f6
+  border-radius: 8px
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1)
+  overflow-x: auto
+
+/* Table styling */
+table
+  width: 100%
+  border-collapse: collapse
+  margin-top: 12px
+
+/* Table header styling */
+th
+  background-color: #3f51b5  // existing header bg color
+  color: #e81898             // dark pink header text
+  font-weight: 500
+  padding: 12px
+  text-align: left
+
+/* Table body styling */
+td
+  padding: 12px
+  border-bottom: 1px solid #dada10ff
+  color: #333
+
+/* Action buttons styling */
+button.mat-icon-button
+  margin-right: 8px
+  &.edit-button
+    color: #1976d2
+    &:hover
+      background-color: rgba(25, 118, 210, 0.1)
+  &.delete-button
+    color: #d32f2f
+    &:hover
+      background-color: rgba(211, 47, 47, 0.1)
+
+/* Paginator styling */
+.mat-paginator
+  margin-top: 12px
+  display: flex
+  justify-content: flex-end
+
+/* Add Exam button styling */
+.add-btn
+  margin-bottom: 12px
+  background-color: #4caf50
+  color: white
+  &:hover
+    background-color: #43a047

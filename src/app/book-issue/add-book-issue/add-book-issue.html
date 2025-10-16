@@ -1,0 +1,47 @@
+<form class="book-issue-form">
+  <!-- Student Name Selection -->
+  <mat-form-field class="book-issue-full-width">
+    <mat-label>Student</mat-label>
+    <mat-select [(ngModel)]="bookIssue.StudentID" [ngModelOptions]="{standalone: true}">
+      <mat-option *ngFor="let student of students" [value]="student.StudentID">
+        {{ student.Name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Book Name Selection -->
+  <mat-form-field class="book-issue-full-width">
+    <mat-label>Book</mat-label>
+    <mat-select [(ngModel)]="bookIssue.BookID" [ngModelOptions]="{standalone: true}">
+      <mat-option *ngFor="let book of books" [value]="book.BookID">
+        {{ book.BookName }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Issue Date -->
+  <mat-form-field class="book-issue-full-width">
+    <mat-label>Issue Date</mat-label>
+    <input type="date" matInput [(ngModel)]="bookIssue.IssueDate" [ngModelOptions]="{standalone: true}">
+  </mat-form-field>
+
+  <!-- Return Date -->
+  <mat-form-field class="book-issue-full-width">
+    <mat-label>Return Date</mat-label>
+    <input type="date" matInput [(ngModel)]="bookIssue.ReturnDate" [ngModelOptions]="{standalone: true}">
+  </mat-form-field>
+
+
+  <mat-form-field appearance="fill" class="full-width">
+  <mat-label>Status</mat-label>
+  <mat-select [(ngModel)]="bookIssue.Status" name="Status" [ngModelOptions]="{standalone: true}">
+    <mat-option value="Issued">Issued</mat-option>
+    <mat-option value="Returned">Returned</mat-option>
+  </mat-select>
+</mat-form-field>
+
+
+  <!-- Buttons -->
+  <button type="button" mat-button color="primary" (click)="save()">Save</button>
+  <button type="button" mat-button color="warn" (click)="cancel()">Cancel</button>
+</form>

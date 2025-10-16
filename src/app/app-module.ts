@@ -17,11 +17,13 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { AuthInterceptor } from './core/auth-interceptor';
 
 
+
 @NgModule({
   declarations: [
     App,
     NotFound,
     Sidebar,
+    
   
   ],
   imports: [
