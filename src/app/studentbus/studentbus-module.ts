@@ -17,6 +17,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSortModule } from '@angular/material/sort';
+import { MatSelectModule } from '@angular/material/select';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import { MatSortModule } from '@angular/material/sort';
     MatFormFieldModule,
     MatSlideToggleModule,
     MatSortModule,
+    MatSelectModule,
     StudentbusRoutingModule
   ]
 })

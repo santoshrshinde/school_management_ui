@@ -1,53 +1,74 @@
-import { Component, inject, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { Common } from '../../serices/common';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FormControl, FormGroupDirective, NgForm } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-  }
-}
 
 @Component({
   selector: 'app-add-studentbus',
-  standalone: false,
   templateUrl: './add-studentbus.html',
-  styleUrls: ['./add-studentbus.sass']
+  styleUrls: ['./add-studentbus.sass'],
+  standalone: false
 })
-export class AddStudentbus {
+export class AddStudentbus implements OnInit {
   private commonService = inject(Common);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private cdr = inject(ChangeDetectorRef);
   private toastr: ToastrService = inject(ToastrService);
 
-  // ✅ Proper student-bus object as per table
   studentbus: any = {
     StudentBusID: 0,
     StudentID: '',
     BusID: ''
   };
 
-  constructor() {
+  buses: any[] = [];      // Bus dropdown list
+  students: any[] = [];   // Student dropdown list
+  studentbusId: number = 0;
+
+  ngOnInit() {
+    // Load dropdowns
+    this.loadSchoolbus();
+    this.loadStudents();
+
+    // Check for edit
     this.route.params.subscribe(params => {
-      const id = params['id'];
-      if (id) {
-        this.studentbus.StudentBusID = +id;
-        this.loadStudentbusDetails(this.studentbus.StudentBusID);
+      this.studentbusId = params['id'];
+      if (this.studentbusId) {
+        this.loadStudentbusDetails(this.studentbusId);
       }
     });
   }
 
+  // Load all buses
+  loadSchoolbus() {
+    this.commonService.getSchoolbus().subscribe({
+      next: (data: any[]) => {
+        this.buses = data;
+        console.log('Buses loaded:', data);
+      },
+      error: (err) => console.error('Failed to load buses', err)
+    });
+  }
+
+  // Load all students
+  loadStudents() {
+    this.commonService.getStudents().subscribe({
+      next: (data: any[]) => {
+        this.students = data;
+        console.log('Students loaded:', data);
+      },
+      error: (err) => console.error('Failed to load students', err)
+    });
+  }
+
+  // Load studentbus details for edit
   loadStudentbusDetails(id: number) {
     this.commonService.getStudentbusById(id).subscribe({
       next: (data: any) => {
-        console.log('Studentbus details:', data);
         this.studentbus = data;
-        this.cdr.detectChanges();
+        this.cdr.detectChanges(); // Update UI
+        console.log('Loaded studentbus:', data);
       },
       error: (err) => {
         console.error('Failed to load studentbus details', err);
@@ -56,28 +77,29 @@ export class AddStudentbus {
     });
   }
 
+  // Save or update studentbus
   save() {
-    if (this.studentbus.StudentBusID) {
-      // ✅ Update existing
-      this.commonService.updateStudentbus(this.studentbus.StudentBusID, this.studentbus).subscribe({
+    if (this.studentbusId) {
+      // Update existing
+      this.commonService.updateStudentbus(this.studentbusId, this.studentbus).subscribe({
         next: () => {
           this.toastr.success('Studentbus updated successfully', 'Success');
           this.router.navigateByUrl('/studentbus');
         },
         error: (err) => {
-          console.log('Error', err);
+          console.error('Error updating studentbus', err);
           this.toastr.error('Failed to update studentbus', 'Error');
         }
       });
     } else {
-      // ✅ Create new
+      // Add new
       this.commonService.saveStudentbus(this.studentbus).subscribe({
         next: () => {
           this.toastr.success('Studentbus added successfully', 'Success');
           this.router.navigateByUrl('/studentbus');
         },
         error: (err) => {
-          console.log('Error', err);
+          console.error('Error adding studentbus', err);
           this.toastr.error('Failed to add studentbus', 'Error');
         }
       });

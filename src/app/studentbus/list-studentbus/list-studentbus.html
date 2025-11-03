@@ -1,25 +1,25 @@
-<button (click)="addStudentbus()" mat-raised-button color="primary">
-  Add Studentbus
-</button>
+<div class="studentbus-header">
+  <h2>Student Bus List</h2>
+  <button mat-raised-button color="primary" (click)="addStudentbus()">Add StudentBus</button>
+</div>
 
-<table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
-       class="mat-elevation-z8">
+<table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" class="mat-elevation-z8">
 
-  <!-- Bus Column -->
+  <!-- Bus Number Column -->
   <ng-container matColumnDef="BusNumber">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Bus Number </th>
-    <td mat-cell *matCellDef="let element"> {{element.BusNumber}} </td>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Bus Number</th>
+    <td mat-cell *matCellDef="let element">{{ element.BusNumber }}</td>
   </ng-container>
 
-  <!-- Student Column -->
+  <!-- Student Name Column -->
   <ng-container matColumnDef="StudentName">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Student Name </th>
-    <td mat-cell *matCellDef="let element"> {{element.StudentName}} </td>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Student Name</th>
+    <td mat-cell *matCellDef="let element">{{ element.StudentName }}</td>
   </ng-container>
 
   <!-- Action Column -->
   <ng-container matColumnDef="Action">
-    <th mat-header-cell *matHeaderCellDef> Action </th>
+    <th mat-header-cell *matHeaderCellDef>Action</th>
     <td mat-cell *matCellDef="let element">
       <button mat-icon-button color="primary" (click)="edit(element.StudentBusID)">
         <mat-icon>edit</mat-icon>
@@ -34,4 +34,4 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
 
-<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+<mat-paginator [pageSizeOptions]="[5,10,20]" showFirstLastButtons></mat-paginator>

@@ -127,25 +127,24 @@ export class Common {
   // =======================
   // STUDENTBUS METHODS
   // =======================
-  getStudentbus(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/studentbus`);
-  }
 
-  saveStudentbus(data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/studentbus`, data);
-  }
+  
+getStudentbus(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrl}/studentbus`); // correct
+}
+getStudentbusById(id: number): Observable<any> {
+  return this.http.get<any>(`${this.apiUrl}/studentbus/${id}`);
+}
 
-  getStudentbusById(id: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/studentbus/${id}`);
-  }
-
-  updateStudentbus(id: number, data: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/studentbus/${id}`, data);
-  }
-
-  deleteStudentbus(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/studentbus/${id}`);
-  }
+ saveStudentbus(data: any) {
+  return this.http.post(`${this.apiUrl}/studentbus`, data); // correct
+}
+updateStudentbus(id: number, data: any) {
+  return this.http.put(`${this.apiUrl}/studentbus/${id}`, data);
+}
+deleteStudentbus(id: number) {
+  return this.http.delete(`${this.apiUrl}/studentbus/${id}`);
+}
 
   // =======================
   // FEES METHODS

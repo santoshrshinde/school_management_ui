@@ -5,7 +5,7 @@
     <mat-label>Student</mat-label>
     <mat-select [(ngModel)]="attendance.StudentID" name="StudentID" [ngModelOptions]="{standalone: true}">
       <mat-option *ngFor="let student of students" [value]="student.StudentID">
-        {{student.studentName}}
+        {{student.Name}}
       </mat-option>
     </mat-select>
   </mat-form-field>

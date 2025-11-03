@@ -8,28 +8,28 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 
-// ✅ Studentbus Interface (with join fields also)
 export interface Studentbus {
   StudentBusID: number;
   StudentID: number;
   BusID: number;
-  StudentName?: string;   // from join
-  BusNumber?: string;     // from join
+  StudentName?: string;
+  BusNumber?: string;
 }
 
 @Component({
   selector: 'app-list-studentbus',
-  standalone: false,
   templateUrl: './list-studentbus.html',
-  styleUrls: ['./list-studentbus.sass']
+  styleUrls: ['./list-studentbus.sass'],
+  standalone: false
 })
 export class ListStudentbus implements AfterViewInit {
-  // ✅ Show StudentName and BusNumber instead of IDs
-  displayedColumns: string[] = ['BusNumber', 'StudentName', 'Action'];
 
+  displayedColumns: string[] = ['BusNumber', 'StudentName', 'Action'];
   dataSource = new MatTableDataSource<Studentbus>([]);
   selection = new SelectionModel<Studentbus>(true, []);
-  studentbus: Studentbus[] = [];   
+  studentbus: Studentbus[] = [];
+  students: any[] = [];
+  buses: any[] = [];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -37,9 +37,10 @@ export class ListStudentbus implements AfterViewInit {
   private commonService = inject(Common);
   private _liveAnnouncer = inject(LiveAnnouncer);
   private toastr: ToastrService = inject(ToastrService);
+  private router = inject(Router);
 
-  constructor(private router: Router) {
-    this.loadStudentbus();
+  constructor() {
+    this.loadStudentsAndBuses();
   }
 
   ngAfterViewInit() {
@@ -47,47 +48,80 @@ export class ListStudentbus implements AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  // ✅ Navigate to Add StudentBus
-  addStudentbus() {
-    this.router.navigateByUrl('studentbus/add-studentbus');
+  // Load students and buses first, then map StudentBus list
+  loadStudentsAndBuses() {
+    this.commonService.getStudents().subscribe({
+      next: (studentsData: any[]) => {
+        this.students = studentsData;
+
+        this.commonService.getSchoolbus().subscribe({
+          next: (busesData: any[]) => {
+            this.buses = busesData;
+            this.loadStudentbus();
+          },
+          error: (err) => {
+            console.error('Failed to load buses:', err);
+            this.toastr.error('Failed to load buses', 'Error');
+          }
+        });
+      },
+      error: (err) => {
+        console.error('Failed to load students:', err);
+        this.toastr.error('Failed to load students', 'Error');
+      }
+    });
   }
 
-  // ✅ API Call to fetch studentbus records
+  // Load all studentbus records
   loadStudentbus() {
     this.commonService.getStudentbus().subscribe({
-      next: (data:any) => {
-        this.studentbus = data;
-        this.dataSource.data = data;
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+      next: (data: Studentbus[]) => {
+        this.studentbus = data.map(d => ({
+          ...d,
+          StudentName: this.students.find(s => s.StudentID === d.StudentID)?.Name || '',
+          BusNumber: this.buses.find(b => b.BusID === d.BusID)?.BusNumber || ''
+        }));
+
+        this.dataSource.data = this.studentbus;
+
+        if (this.paginator) this.dataSource.paginator = this.paginator;
+        if (this.sort) this.dataSource.sort = this.sort;
+
+        console.log('StudentBus Loaded:', this.studentbus);
       },
-      error: (err: any) => {
-        console.error('Failed to load Studentbus:', err);
-        this.toastr.error('Failed to load Studentbus', 'Error');
+      error: (err) => {
+        console.error('Failed to load studentbus:', err);
+        this.toastr.error('Failed to load studentbus', 'Error');
       }
     });
   }
 
-  // ✅ Delete API
-  delete(id: number) {
-    this.commonService.deleteStudentbus(id).subscribe({
-      next: (response) => {
-        this.toastr.success('Studentbus deleted successfully', 'Success');
-        this.loadStudentbus(); // refresh list
-      },
-      error: (err: any) => {
-        console.error('Failed to delete Studentbus:', err);
-        this.toastr.error('Failed to delete Studentbus', 'Error');
-      }
-    });
+  // Navigation for Add/Edit
+  addStudentbus() {
+    this.router.navigateByUrl('/studentbus/add-studentbus');
   }
 
-  // ✅ Edit Navigation
   edit(id: number) {
     this.router.navigate(['/studentbus/edit-studentbus', id]);
   }
 
-  // ✅ Announce sort change for screen readers
+  // Delete StudentBus
+  delete(id: number) {
+    if (!confirm('Are you sure you want to delete this record?')) return;
+
+    this.commonService.deleteStudentbus(id).subscribe({
+      next: () => {
+        this.toastr.success('Deleted successfully', 'Success');
+        this.loadStudentbus(); // refresh list
+      },
+      error: (err) => {
+        console.error('Failed to delete studentbus:', err);
+        this.toastr.error('Failed to delete studentbus', 'Error');
+      }
+    });
+  }
+
+  // Sorting announcement
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
@@ -96,7 +130,7 @@ export class ListStudentbus implements AfterViewInit {
     }
   }
 
-  // ✅ Select all toggle
+  // Select all toggle
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
@@ -106,18 +140,17 @@ export class ListStudentbus implements AfterViewInit {
   masterToggle() {
     this.isAllSelected()
       ? this.selection.clear()
-      : this.dataSource.data.forEach((row: Studentbus) => this.selection.select(row));
+      : this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
-  // ✅ Remove selected rows (frontend only)
+  // Remove selected rows locally
   removeSelectedRows() {
     this.selection.selected.forEach(item => {
-      let index: number = this.studentbus.findIndex(d => d.StudentBusID === item.StudentBusID);
-      if (index >= 0) {
-        this.dataSource.data.splice(index, 1);
-      }
+      const index = this.studentbus.findIndex(d => d === item);
+      if (index >= 0) this.studentbus.splice(index, 1);
     });
     this.dataSource = new MatTableDataSource<Studentbus>(this.studentbus);
     this.selection = new SelectionModel<Studentbus>(true, []);
   }
+
 }
