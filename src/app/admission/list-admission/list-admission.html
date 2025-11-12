@@ -1,72 +1,56 @@
-<button (click)="addAdmission()" mat-button matButton="elevated">
-  Add Admission
-</button>
+<div class="container mt-4">
+  <h2>Admission List (Course-wise)</h2>
 
-<table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" class="mat-elevation-z8">
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Select Course</mat-label>
+    <mat-select (selectionChange)="onCourseChange($event)">
+      <mat-option value="all">All Courses</mat-option>
+      <mat-option *ngFor="let course of courses" [value]="course.CourseName">
+        {{ course.CourseName }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 
-  <!-- Index Column -->
-  <ng-container matColumnDef="No">
-    <th mat-header-cell *matHeaderCellDef> No. </th>
-    <td mat-cell *matCellDef="let element; let index = index"> {{ index + 1 }} </td>
-  </ng-container>
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort class="full-width-table">
 
-  <!-- Student ID Column -->
-  <ng-container matColumnDef="StudentName">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Student Name">
-      Student Name
-    </th>
-    <td mat-cell *matCellDef="let element"> {{ element.StudentName}} </td>
-  </ng-container>
+      <ng-container matColumnDef="No">
+        <th mat-header-cell *matHeaderCellDef>No.</th>
+        <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+      </ng-container>
 
-  <!-- Course ID Column -->
-  <ng-container matColumnDef="CourseName">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Course Name">
-      Course Name
-    </th>
-    <td mat-cell *matCellDef="let element"> {{ element.CourseName }} </td>
-  </ng-container>
+      <ng-container matColumnDef="StudentName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Student Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.StudentName }}</td>
+      </ng-container>
 
-  <!-- Admission Date Column -->
-  <ng-container matColumnDef="AdmissionDate">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Admission Date">
-      Admission Date
-    </th>
-    <td mat-cell *matCellDef="let element"> {{ element.AdmissionDate | date }} </td>
-  </ng-container>
+      <ng-container matColumnDef="CourseName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Course Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.CourseName }}</td>
+      </ng-container>
 
-  <!-- Action Column -->
-  <ng-container matColumnDef="Action">
-    <th mat-header-cell *matHeaderCellDef> Action </th>
-    <td mat-cell *matCellDef="let element">
-      <button
-        mat-icon-button
-        matTooltip="Edit"
-        color="primary"
-        (click)="edit(element.AdmissionID)"
-      >
-        <mat-icon>edit</mat-icon>
-      </button>
+      <ng-container matColumnDef="AdmissionDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Admission Date</th>
+        <td mat-cell *matCellDef="let element">{{ element.AdmissionDate | date:'mediumDate' }}</td>
+      </ng-container>
 
-      <button
-        mat-icon-button
-        matTooltip="Delete"
-        color="warn"
-        (click)="delete(element.AdmissionID)"
-      >
-        <mat-icon>delete</mat-icon>
-      </button>
-    </td>
-  </ng-container>
+      <ng-container matColumnDef="Action">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-raised-button color="primary" (click)="edit(element.AdmissionID)">Edit</button>
+          <button mat-raised-button color="warn" (click)="delete(element.AdmissionID)">Delete</button>
+        </td>
+      </ng-container>
 
-  <!-- Table Header and Rows -->
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-</table>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
 
-<!-- Paginator -->
-<mat-paginator
-  [pageSizeOptions]="[5, 10, 20]"
-  showFirstLastButtons
-  aria-label="Select page of admissions"
->
-</mat-paginator>
+    <mat-paginator
+      [length]="dataSource.data.length"
+      [pageSize]="10"
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons>
+    </mat-paginator>
+  </div>
+</div>

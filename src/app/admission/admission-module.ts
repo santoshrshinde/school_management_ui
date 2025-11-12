@@ -1,59 +1,46 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
-import { AdmissionRoutingModule } from './admission-routing-module';
-import { Admission } from './admission';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatIconModule } from '@angular/material/icon';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatCardModule } from '@angular/material/card';
-import { MatChipInput } from '@angular/material/chips';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { ListAdmission } from './list-admission/list-admission';
-import { AddAdmission} from './add-admission/add-admission';
+import { CommonModule, DatePipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+
+// Angular Material Modules
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatOptionModule } from '@angular/material/core';
+import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
-
+// Components
+import { AddAdmission} from './add-admission/add-admission';
+import { ListAdmission } from './list-admission/list-admission';
+import { Admission } from './admission';
+import { AdmissionRoutingModule } from './admission-routing-module';
 
 @NgModule({
   declarations: [
     Admission,
-    ListAdmission,
-    AddAdmission
+    AddAdmission,
+    ListAdmission
   ],
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule,
     RouterModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatOptionModule,          // <- keeps mat-option known
-    MatDatepickerModule,
-    MatNativeDateModule,
+    MatOptionModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
     MatButtonModule,
     MatIconModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatTooltipModule,
-    MatSlideToggleModule,
-    MatChipInput,
-    MatCardModule,
-    MatCheckboxModule,
-    AdmissionRoutingModule
-
-  ]
+     AdmissionRoutingModule,
+  ],
+  providers: [DatePipe],
 })
 export class AdmissionModule { }

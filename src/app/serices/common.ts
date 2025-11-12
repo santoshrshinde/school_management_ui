@@ -100,6 +100,9 @@ export class Common {
   deleteAdmission(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/admission/${id}`);
   }
+  getAdmissionsByCourse(courseId: number) {
+  return this.http.get(`${this.apiUrl}/admission/course/${courseId}`);
+}
 
   // =======================
   // SCHOOLBUS METHODS
