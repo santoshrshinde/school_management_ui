@@ -233,9 +233,13 @@ deleteStudentbus(id: number) {
    // ------------------- Timetable -------------------
 
   // Timetable APIs
-  getTimetable() {
+  getTimeTable() {
     return this.http.get(`${this.apiUrl}/timetable/all`);
   }
+  
+  deleteTimeTable(id: number) {
+  return this.http.delete(this.apiUrl + '/timetable/' + id);
+}
 
   getTimetableById(id: number) {
     return this.http.get(`${this.apiUrl}/timetable/${id}`);

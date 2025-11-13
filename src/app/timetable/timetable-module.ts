@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { TimetableRoutingModule } from './timetable-routing-module';
 import { AddTimetable } from './add-timetable/add-timetable';
-import { ListTimetable } from './list-timetable/list-timetable';
+import { ListTimeTable } from './list-timetable/list-timetable';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -28,7 +28,7 @@ import { Timetable } from './timetable';
   declarations: [
     Timetable,
     AddTimetable,
-    ListTimetable
+    ListTimeTable
   ],
   imports: [
     CommonModule,

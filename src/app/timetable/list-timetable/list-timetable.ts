@@ -1,111 +1,112 @@
-import { SelectionModel } from '@angular/cdk/collections';
-import { Component, inject, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { Common } from '../../serices/common';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { ToastrService } from 'ngx-toastr';
+import { AfterViewInit, Component, ViewChild, inject } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { Common } from '../../serices/common';
+import { ToastrService } from 'ngx-toastr';
 
-export interface Timetable {
-  TimetableID: number;
-  CourseName: string;
+export interface TimeTable {
+  TimeTableID: number;
+  Course: string;
   Day: string;
   TimeSlot: string;
   Subject: string;
-  TeacherName: string;
-  Action?: string;
+  Teacher: string;
 }
 
 @Component({
   selector: 'app-list-timetable',
-  standalone: false,
   templateUrl: './list-timetable.html',
+  standalone:false,
   styleUrls: ['./list-timetable.sass']
 })
-export class ListTimetable {
-  displayedColumns: string[] = ['No', 'CourseName', 'Day', 'TimeSlot', 'Subject', 'TeacherName', 'Action'];
-  dataSource = new MatTableDataSource<Timetable>([]);
-  selection = new SelectionModel<Timetable>(true, []);
-  
+export class ListTimeTable implements AfterViewInit {
+  displayedColumns: string[] = ['No', 'Course', 'Day', 'TimeSlot', 'Subject', 'Teacher', 'Action'];
+  dataSource = new MatTableDataSource<TimeTable>([]);
+  timetables: TimeTable[] = [];
+  courses: any[] = [];
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   private commonService = inject(Common);
+  private toastr = inject(ToastrService);
   private _liveAnnouncer = inject(LiveAnnouncer);
-  private toastr: ToastrService = inject(ToastrService);
 
-  constructor(private router: Router) {
-    this.loadTimetables();
-  }
+  constructor(private router: Router) {}
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.loadTimeTable();
+    this.loadCourses();
   }
 
-  loadTimetables() {
-    this.commonService.getTimetable().subscribe({
-      next: (data: any) => {
+  // Load all timetables
+  loadTimeTable() {
+    this.commonService.getTimeTable().subscribe({
+      next: (data:any) => {
+        this.timetables = data;
         this.dataSource.data = data;
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       },
       error: (err) => {
-        console.error('Failed to load timetables:', err);
+        console.error(err);
         this.toastr.error('Failed to load timetables', 'Error');
       }
     });
   }
 
-  addTimetable() {
-    this.router.navigateByUrl('timetable/add-timetable');
-  }
-
-  edit(id: number) {
-    this.router.navigate(['timetable/edit-timetable', id]);
-  }
-
-  delete(id: number) {
-    if(confirm('Are you sure you want to delete this timetable record?')) {
-      this.commonService.deleteTimetable(id).subscribe({
-        next: () => {
-          this.toastr.success('Timetable deleted successfully', 'Success');
-          this.loadTimetables();
-        },
-        error: (err) => {
-          console.error('Failed to delete timetable:', err);
-          this.toastr.error('Failed to delete timetable', 'Error');
-        }
-      });
-    }
-  }
-
-  /** Selection functions */
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
-
-  masterToggle() {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.dataSource.data.forEach(row => this.selection.select(row));
-  }
-
-  removeSelectedRows() {
-    this.selection.selected.forEach(item => {
-      const index = this.dataSource.data.findIndex(d => d === item);
-      if(index >= 0) this.dataSource.data.splice(index, 1);
+  // Load all courses for dropdown
+  loadCourses() {
+    this.commonService.getCourse().subscribe({
+      next: (data: any[]) => {
+        this.courses = data;
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error('Failed to load courses', 'Error');
+      }
     });
-    this.dataSource = new MatTableDataSource<Timetable>(this.dataSource.data);
-    this.selection.clear();
   }
 
-  /** Sorting announcer */
-  announceSortChange(sortState: any) {
+  // Filter by course name
+  onCourseChange(courseName: string) {
+    if (courseName === 'all') {
+      this.dataSource.data = this.timetables;
+    } else {
+      this.dataSource.data = this.timetables.filter(t => t.Course === courseName);
+    }
+    if (this.paginator) this.paginator.firstPage();
+  }
+
+  // Edit timetable
+  edit(id: number) {
+    this.router.navigate(['/timetable/edit-timetable', id]);
+  }
+    // ✅ Add this function
+  addTimetable() {
+    this.router.navigateByUrl('/timetable/add-timetable'); // Navigate to AddTimetable component
+  }
+
+
+  // Delete timetable
+  delete(id: number) {
+    this.commonService.deleteTimeTable(id).subscribe({
+      next: () => {
+        this.toastr.success('Timetable deleted successfully', 'Success');
+        this.loadTimeTable();
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error('Failed to delete timetable', 'Error');
+      }
+    });
+  }
+
+  // Sorting announce for accessibility
+  announceSortChange(sortState: Sort) {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
     } else {

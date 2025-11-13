@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ListTimetable } from './list-timetable/list-timetable';
+import { ListTimeTable } from './list-timetable/list-timetable';
 import { AddTimetable } from './add-timetable/add-timetable';
 import { Timetable } from './timetable';
 
@@ -10,7 +10,7 @@ const routes: Routes = [ {
       children: [
         {
           path: 'list-timetable',
-          component: ListTimetable
+          component: ListTimeTable
         },
         {
           path: 'add-timetable',
