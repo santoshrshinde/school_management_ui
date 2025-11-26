@@ -278,6 +278,13 @@ deleteStudentbus(id: number) {
     return this.http.delete(`${this.apiUrl}/attendance/${id}`);
   }
 
+getAttendanceByCourse(courseId: number) {
+  return this.http.get(`${this.apiUrl}/attendance?course_id=${courseId}`);
+}
+
+
+
+
    // ==============================
   // 🧾 EXAM APIs
   // ==============================
@@ -302,7 +309,10 @@ deleteStudentbus(id: number) {
     return this.http.delete(`${this.apiUrl}/exam/delete/${id}`);
   }
 
-  
+
+getExamByCourse(courseId: number): Observable<any> {
+  return this.http.get(`${this.apiUrl}/exam/by-course/${courseId}`);
+}
 
 
 

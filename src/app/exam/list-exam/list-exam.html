@@ -1,32 +1,47 @@
 <p>list-exam works!</p>
+
 <button (click)="addExam()" mat-button mat-raised-button color="primary">
   Add Exam
 </button>
 
+<!-- COURSE FILTER DROPDOWN -->
+<mat-form-field appearance="fill" class="w-50">
+  <mat-label>Select Course</mat-label>
+  <mat-select [(ngModel)]="selectedCourseId" (selectionChange)="filterByCourse()">
+    <mat-option value="">All Courses</mat-option>
+    <mat-option *ngFor="let c of courses" [value]="c.CourseID">
+      {{ c.CourseName }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<!-- EXAM TABLE -->
 <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
   <!-- Course Name Column -->
   <ng-container matColumnDef="CourseName">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Course Name</th>
-    <td mat-cell *matCellDef="let element">{{element.CourseName}}</td>
+    <td mat-cell *matCellDef="let element">{{ element.CourseName }}</td>
   </ng-container>
 
   <!-- Subject Column -->
   <ng-container matColumnDef="Subject">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Subject</th>
-    <td mat-cell *matCellDef="let element">{{element.Subject}}</td>
+    <td mat-cell *matCellDef="let element">{{ element.Subject }}</td>
   </ng-container>
 
   <!-- Exam Date Column -->
   <ng-container matColumnDef="ExamDate">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Exam Date</th>
-    <td mat-cell *matCellDef="let element">{{element.ExamDate | date:'dd-MM-yyyy'}}</td>
+    <td mat-cell *matCellDef="let element">
+      {{ element.ExamDate | date:'dd-MM-yyyy' }}
+    </td>
   </ng-container>
 
   <!-- Total Marks Column -->
   <ng-container matColumnDef="TotalMarks">
     <th mat-header-cell *matHeaderCellDef>Total Marks</th>
-    <td mat-cell *matCellDef="let element">{{element.TotalMarks}}</td>
+    <td mat-cell *matCellDef="let element">{{ element.TotalMarks }}</td>
   </ng-container>
 
   <!-- Action Column -->
@@ -44,6 +59,7 @@
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
 </table>
 
-<mat-paginator [pageSizeOptions]="[5,10,20]" showFirstLastButtons></mat-paginator>
+<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>

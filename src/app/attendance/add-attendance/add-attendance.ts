@@ -27,11 +27,13 @@ export class AddAttendance {
 
   attendance: any = {
     StudentID: '',
+    CourseID: '',
     Date: '',
-    Status: ''
+    Status: 'Present'
   }
 
   students: any[] = []; // Student list
+  courses: any[] = [];  // Course list
   attendanceId: number = 0;
 
   constructor() {
@@ -45,6 +47,7 @@ export class AddAttendance {
 
   ngOnInit() {
     this.loadStudents();
+    this.loadCourses();
   }
 
   loadStudents() {
@@ -56,6 +59,19 @@ export class AddAttendance {
       error: (err) => {
         console.error('Failed to load students', err);
         this.toastr.error('Failed to load students', 'Error');
+      }
+    });
+  }
+
+  loadCourses() {
+    this.commonService.getCourse().subscribe({
+      next: (data: any) => {
+        this.courses = data;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Failed to load courses', err);
+        this.toastr.error('Failed to load courses', 'Error');
       }
     });
   }
@@ -75,6 +91,11 @@ export class AddAttendance {
 
   save() {
     console.log(this.attendance);
+    if (!this.attendance.StudentID || !this.attendance.CourseID || !this.attendance.Date) {
+      this.toastr.error('Please fill all required fields', 'Error');
+      return;
+    }
+
     if (this.attendanceId) {
       // Update existing attendance
       this.commonService.updateAttendance(this.attendanceId, this.attendance).subscribe({

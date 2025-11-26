@@ -1,5 +1,5 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { AfterViewInit, Component, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, inject, OnInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -22,19 +22,28 @@ export interface Exam {
   templateUrl: './list-exam.html',
   styleUrls: ['./list-exam.sass'],
 })
-export class ListExam implements AfterViewInit {
+export class ListExam implements OnInit, AfterViewInit {
+
   displayedColumns: string[] = ['CourseName', 'Subject', 'ExamDate', 'TotalMarks', 'Action'];
   dataSource = new MatTableDataSource<Exam>([]);
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+
   selection = new SelectionModel<Exam>(true, []);
   exams: Exam[] = [];
+
+  courses: any[] = [];     // 👉 course dropdown data
+  selectedCourseId: number | '' = '';   // 👉 FIXED missing variable
 
   private commonService = inject(Common);
   private _liveAnnouncer = inject(LiveAnnouncer);
   private toastr: ToastrService = inject(ToastrService);
 
-  constructor(private router: Router) {
+  constructor(private router: Router) {}
+
+  ngOnInit(): void {
+    this.getCourses();
     this.getExams();
   }
 
@@ -43,10 +52,37 @@ export class ListExam implements AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  addExam() {
-    this.router.navigateByUrl('exam/add-exam');
+  // ===========================
+  // LOAD COURSES
+  // ===========================
+  getCourses() {
+    this.commonService.getCourse().subscribe({
+      next: (res: any) => {
+        this.courses = res;
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("Failed to load courses");
+      }
+    });
   }
 
+  // ===========================
+  // FILTER BY COURSE
+  // ===========================
+  filterByCourse() {
+    if (this.selectedCourseId !== '' && this.selectedCourseId !== null) {
+      this.commonService.getExamByCourse(this.selectedCourseId).subscribe((res: any) => {
+        this.dataSource.data = res;
+      });
+    } else {
+      this.getExams();   // load all
+    }
+  }
+
+  // ===========================
+  // LOAD ALL EXAMS
+  // ===========================
   getExams() {
     this.commonService.getExam().subscribe({
       next: (data: any) => {
@@ -61,11 +97,19 @@ export class ListExam implements AfterViewInit {
     });
   }
 
+  addExam() {
+    this.router.navigateByUrl('exam/add-exam');
+  }
+
+  edit(id: number) {
+    this.router.navigate(['exam/edit-exam', id]);
+  }
+
   delete(id: number) {
     this.commonService.deleteExam(id).subscribe({
-      next: (response) => {
+      next: () => {
         this.toastr.success('Exam deleted successfully', 'Success');
-        this.getExams(); // Refresh list
+        this.getExams();
       },
       error: (err) => {
         console.error('Failed to delete exam:', err);
@@ -74,13 +118,7 @@ export class ListExam implements AfterViewInit {
     });
   }
 
-  edit(id: number) {
-    this.router.navigate(['exam/edit-exam', id]);
-  }
-
-  announceSortChange(sortState: Event) {
-    // Optional: implement live announcer for accessibility
-  }
+  announceSortChange(sortState: Event) {}
 
   isAllSelected() {
     const numSelected = this.selection.selected.length;

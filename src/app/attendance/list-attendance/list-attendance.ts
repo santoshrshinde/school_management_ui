@@ -5,36 +5,42 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Common } from '../../serices/common';
-import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
+import { SelectionModel } from '@angular/cdk/collections';
 
 export interface Attendance {
+  AttendanceID: number;
   StudentName: string;
+  CourseName: string;
   Date: string;
   Status: string;
-  Action?: string;
 }
 
 @Component({
   selector: 'app-list-attendance',
   standalone: false,
   templateUrl: './list-attendance.html',
-  styleUrls: ['./list-attendance.sass'],
+  styleUrls: ['./list-attendance.sass']
 })
 export class ListAttendance implements AfterViewInit {
-  displayedColumns: string[] = ['StudentName', 'Date', 'Status', 'Action'];
+
+  displayedColumns: string[] = ['StudentName', 'CourseName', 'Date', 'Status', 'Action'];
   dataSource = new MatTableDataSource<Attendance>([]);
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
-  selection = new SelectionModel<Attendance>(true, []);
   attendances: Attendance[] = [];
 
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+  courses: any[] = [];
+  selectedCourseId: number | null = null;
+
   private commonService = inject(Common);
-  private _liveAnnouncer = inject(LiveAnnouncer);
   private toastr: ToastrService = inject(ToastrService);
+  private announcer = inject(LiveAnnouncer);
 
   constructor(private router: Router) {
-    this.getAttendances();
+    this.loadCourses();
+    this.getAttendance();
   }
 
   ngAfterViewInit() {
@@ -46,59 +52,67 @@ export class ListAttendance implements AfterViewInit {
     this.router.navigateByUrl('attendance/add-attendance');
   }
 
-  getAttendances() {
+  // Load all attendance
+  getAttendance() {
     this.commonService.getAttendance().subscribe({
-      next: (data: any) => {
-        this.dataSource.data = data;
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+      next: (res: any) => {
+        this.attendances = res;
+        this.dataSource.data = res;
       },
-      error: (err) => {
-        console.error('Failed to load attendance records:', err);
-        this.toastr.error('Failed to load attendance records', 'Error');
-      },
+      error: (err: any) => {
+        console.error("Failed to load attendance:", err);
+        this.toastr.error("Failed to load attendance");
+      }
     });
   }
 
-  delete(id: number) {
-    this.commonService.deleteAttendance(id).subscribe({
-      next: (response) => {
-        this.toastr.success('Attendance deleted successfully', 'Success');
-        this.getAttendances(); // Refresh list
+  // Load all courses
+  loadCourses() {
+    this.commonService.getCourse().subscribe({
+      next: (res: any) => {
+        this.courses = res;
       },
-      error: (err) => {
-        console.error('Failed to delete attendance:', err);
-        this.toastr.error('Failed to delete attendance', 'Error');
-      },
+      error: (err: any) => {
+        console.error("Failed to load courses:", err);
+        this.toastr.error("Failed to load courses");
+      }
     });
+  }
+
+  // Filter attendance by course
+  filterByCourse() {
+    if (this.selectedCourseId) {
+      this.commonService.getAttendanceByCourse(this.selectedCourseId).subscribe({
+        next: (data: any) => {
+          this.dataSource.data = data;
+        },
+        error: (err: any) => {
+          console.error("Failed to load filtered attendance:", err);
+        }
+      });
+    } else {
+      this.getAttendance();
+    }
   }
 
   edit(id: number) {
     this.router.navigate(['attendance/edit-attendance', id]);
   }
 
-  announceSortChange(sortState: Event) {
-    // Optional: implement live announcer for accessibility
-  }
 
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
-
-  removeSelectedRows() {
-    this.selection.selected.forEach((item) => {
-      const index = this.attendances.findIndex((d) => d === item);
-      this.dataSource.data.splice(index, 1);
-      this.dataSource = new MatTableDataSource<Attendance>(this.attendances);
-    });
-    this.selection = new SelectionModel<Attendance>(true, []);
-  }
-
-  masterToggle() {
-    this.isAllSelected()
-      ? this.selection.clear()
-      : this.dataSource.data.forEach((row) => this.selection.select(row));
+  // Delete Attendance
+  deleteAttendance(id: number) {
+    if (confirm("Are you sure you want to delete attendance?")) {
+      this.commonService.deleteAttendance(id).subscribe({
+        next: () => {
+          this.toastr.success("Attendance deleted");
+          this.getAttendance();
+        },
+        error: (err: any) => {
+          console.error("Failed to delete:", err);
+          this.toastr.error("Failed to delete attendance");
+        }
+      });
+    }
   }
 }

@@ -27,6 +27,16 @@
     </mat-select>
   </mat-form-field>
 
+  <!-- Course Dropdown -->
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Course</mat-label>
+    <mat-select [(ngModel)]="attendance.CourseID" name="CourseID" [ngModelOptions]="{standalone: true}">
+      <mat-option *ngFor="let course of courses" [value]="course.CourseID">
+        {{ course.CourseName }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
   <button mat-raised-button color="primary" type="button" (click)="save()">Save</button>
   <button mat-raised-button color="warn" type="button" (click)="cancel()">Cancel</button>
 
