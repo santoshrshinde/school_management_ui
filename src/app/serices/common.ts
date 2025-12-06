@@ -266,9 +266,9 @@ deleteStudentbus(id: number) {
     return this.http.get(`${this.apiUrl}/attendance/${id}`);
   }
 
-  saveAttendance(attendance: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/attendance/`, attendance);
-  }
+ saveAttendance(data: any) {
+  return this.http.post(`${this.apiUrl}/attendance`, data);
+}
 
   updateAttendance(id: number, attendance: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/attendance/${id}`, attendance);
@@ -278,10 +278,15 @@ deleteStudentbus(id: number) {
     return this.http.delete(`${this.apiUrl}/attendance/${id}`);
   }
 
-getAttendanceByCourse(courseId: number) {
-  return this.http.get(`${this.apiUrl}/attendance?course_id=${courseId}`);
+getAttendanceByCourse(courseId: number, month: number, year: number) {
+  return this.http.get(`${this.apiUrl}/attendance/by-course/${courseId}/${month}/${year}`);
 }
 
+
+
+getStudentsByCourse(courseId: number): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrl}/students?course_id=${courseId}`);
+}
 
 
 
