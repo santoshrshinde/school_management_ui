@@ -23,7 +23,7 @@ const routes: Routes = [
         },
         {
           path: '',
-          redirectTo: 'list-Attendance',
+          redirectTo: 'list-attendance',
           pathMatch: 'full'
         }
       ]

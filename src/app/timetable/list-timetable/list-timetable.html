@@ -1,80 +1,121 @@
 <div class="container mt-4">
-<div class="header">
-  <h2>TimeTable (Course-wise)</h2>
-  <button mat-raised-button color="primary" (click)="addTimetable()">
-    Add New TimeTable
-  </button>
-</div>
-  <!-- Course Filter Dropdown -->
+
+  <div class="header">
+    <h2>TimeTable (Course-wise)</h2>
+
+    <button mat-raised-button color="primary" (click)="addTimetable()">
+      Add New TimeTable
+    </button>
+  </div>
+
+  <!-- Course Filter -->
   <mat-form-field appearance="fill" class="full-width">
     <mat-label>Select Course</mat-label>
+
     <mat-select (selectionChange)="onCourseChange($event.value)">
+
       <mat-option value="all">All Courses</mat-option>
+
       <mat-option *ngFor="let course of courses" [value]="course.CourseName">
         {{ course.CourseName }}
       </mat-option>
+
     </mat-select>
   </mat-form-field>
 
-  <!-- TimeTable Table -->
+  <!-- TABLE -->
   <div class="mat-elevation-z8">
+
     <table mat-table [dataSource]="dataSource" matSort class="full-width-table">
 
-      <!-- No Column -->
+      <!-- No -->
       <ng-container matColumnDef="No">
         <th mat-header-cell *matHeaderCellDef>No.</th>
-        <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
-      </ng-container>
 
-      <!-- Course Column -->
-      <ng-container matColumnDef="Course">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Course</th>
-        <td mat-cell *matCellDef="let element">{{ element.CourseName }}</td>
-      </ng-container>
-
-      <!-- Day Column -->
-      <ng-container matColumnDef="Day">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Day</th>
-        <td mat-cell *matCellDef="let element">{{ element.Day }}</td>
-      </ng-container>
-
-      <!-- Time Slot Column -->
-      <ng-container matColumnDef="TimeSlot">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Time Slot</th>
-        <td mat-cell *matCellDef="let element">{{ element.TimeSlot }}</td>
-      </ng-container>
-
-      <!-- Subject Column -->
-      <ng-container matColumnDef="Subject">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Subject</th>
-        <td mat-cell *matCellDef="let element">{{ element.Subject }}</td>
-      </ng-container>
-
-      <!-- Teacher Column -->
-      <ng-container matColumnDef="Teacher">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Teacher</th>
-        <td mat-cell *matCellDef="let element">{{ element.TeacherName }}</td>
-      </ng-container>
-
-      <!-- Action Column -->
-      <ng-container matColumnDef="Action">
-        <th mat-header-cell *matHeaderCellDef>Action</th>
-        <td mat-cell *matCellDef="let element">
-          <button mat-raised-button color="primary" (click)="edit(element.TimeTableID)">Edit</button>
-          <button mat-raised-button color="warn" (click)="delete(element.TimeTableID)">Delete</button>
+        <td mat-cell *matCellDef="let element; let i = index">
+          {{ i + 1 }}
         </td>
       </ng-container>
 
-      <!-- Header & Rows -->
+      <!-- Course -->
+      <ng-container matColumnDef="Course">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Course</th>
+
+        <td mat-cell *matCellDef="let element">
+          {{ element.CourseName }}
+        </td>
+      </ng-container>
+
+      <!-- Day -->
+      <ng-container matColumnDef="Day">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Day</th>
+
+        <td mat-cell *matCellDef="let element">
+          {{ element.Day }}
+        </td>
+      </ng-container>
+
+      <!-- Time Slot -->
+      <ng-container matColumnDef="TimeSlot">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Time Slot</th>
+
+        <td mat-cell *matCellDef="let element">
+          {{ element.TimeSlot }}
+        </td>
+      </ng-container>
+
+      <!-- Subject -->
+      <ng-container matColumnDef="Subject">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Subject</th>
+
+        <td mat-cell *matCellDef="let element">
+          {{ element.Subject }}
+        </td>
+      </ng-container>
+
+      <!-- Teacher -->
+      <ng-container matColumnDef="Teacher">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Teacher</th>
+
+        <td mat-cell *matCellDef="let element">
+          {{ element.TeacherName }}
+        </td>
+      </ng-container>
+
+      <!-- Action -->
+      <ng-container matColumnDef="Action">
+
+        <th mat-header-cell *matHeaderCellDef> Action </th>
+
+        <td mat-cell *matCellDef="let element">
+
+          <button mat-icon-button color="primary"
+            (click)="edit(element.TimetableID)">
+            ✏️
+          </button>
+
+          <button mat-icon-button color="warn"
+            (click)="delete(element.TimetableID)">
+            🗑
+          </button>
+
+        </td>
+
+      </ng-container>
+
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
     </table>
 
-    <!-- Paginator -->
-    <mat-paginator [length]="dataSource.data.length"
-                   [pageSize]="5"
-                   [pageSizeOptions]="[5, 10, 20]"
-                   showFirstLastButtons>
+    <mat-paginator
+      [length]="dataSource.data.length"
+      [pageSize]="5"
+      [pageSizeOptions]="[5,10,20]"
+      showFirstLastButtons>
     </mat-paginator>
+
   </div>
+
 </div>

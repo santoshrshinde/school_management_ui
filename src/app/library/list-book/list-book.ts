@@ -29,40 +29,55 @@ export class ListBook implements OnInit {
     this.loadBooks();
   }
 
-  loadBooks() {
-    this.commonSerice.getAllBooks().subscribe({
-      next: (data: any) => {
-        this.dataSource.data = data;
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      },
-      error: () => {
-        this.toastr.error('Failed to load books', 'Error');
-      }
-    });
-  }
+loadBooks() {
+  this.commonSerice.getAllBooks().subscribe({
+    next: (data: any) => {
 
+      console.log("API DATA:", data); // 🔥 IMPORTANT
+
+      this.dataSource.data = data;
+
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }
+  });
+}
   addBook() {
     this.router.navigateByUrl('/library/add-book');
   }
 
-  edit(BookId: number) {
-    this.router.navigateByUrl(`/library/add-book/${BookId}`);
+edit(BookId: number) {
+
+  console.log("Edit Book ID:", BookId); // 👈 check this
+
+  if (!BookId) {
+    this.toastr.error('Invalid ID');
+    return;
   }
 
-  delete(BookId: number) {
-    if (confirm('Are you sure you want to delete this book?')) {
-      this.commonSerice.deleteBook(BookId).subscribe({
-        next: () => {
-          this.toastr.success('Book deleted successfully', 'Success');
-          this.loadBooks();
-        },
-        error: () => {
-          this.toastr.error('Failed to delete book', 'Error');
-        }
-      });
-    }
+  this.router.navigate(['/library/edit-book', BookId]);
+}
+
+delete(BookID: number) {
+
+  console.log("DELETE ID:", BookID); // 🔥 CHECK THIS
+
+  if (!BookID) {
+    this.toastr.error('Invalid ID');
+    return;
   }
+
+  this.commonSerice.deleteBook(BookID).subscribe({
+    next: () => {
+      this.toastr.success('Book deleted successfully');
+      this.loadBooks();
+    },
+    error: (err) => {
+      console.error(err); // 🔥 CHECK ERROR
+      this.toastr.error('Failed to delete book');
+    }
+  });
+}
 
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {

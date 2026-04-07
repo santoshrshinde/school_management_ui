@@ -1,0 +1,77 @@
+<h2 class="title">Admin Dashboard</h2>
+
+<!-- SUMMARY : 4 CARDS IN ONE ROW -->
+<div class="cards-row four">
+  <div class="card blue">
+    <h4>Students</h4>
+    <h1>{{ summary.totalStudents }}</h1>
+  </div>
+
+  <div class="card green">
+    <h4>Teachers</h4>
+    <h1>{{ summary.totalTeachers }}</h1>
+  </div>
+
+  <div class="card orange">
+    <h4>Courses</h4>
+    <h1>{{ summary.totalCourses }}</h1>
+  </div>
+
+  <div class="card purple">
+    <h4>Admissions</h4>
+    <h1>{{ summary.totalAdmissions }}</h1>
+  </div>
+</div>
+
+<hr>
+
+<!-- LIBRARY ANALYSIS -->
+<h3>Library Analysis</h3>
+<div class="cards-row three">
+  <div class="card teal">
+    <h4>Total Books</h4>
+    <h1>{{ library.totalBooks }}</h1>
+  </div>
+
+  <div class="card red">
+    <h4>Issued</h4>
+    <h1>{{ library.issuedBooks }}</h1>
+  </div>
+
+  <div class="card green">
+    <h4>Available</h4>
+    <h1>{{ library.availableBooks }}</h1>
+  </div>
+</div>
+
+<hr>
+
+<!-- FEES ANALYSIS -->
+<h3>Fees Analysis</h3>
+<div class="cards-row two">
+  <div class="card blue">
+    <h4>Paid</h4>
+    <h1>{{ fees.paidFees }}</h1>
+  </div>
+
+  <div class="card orange">
+    <h4>Pending</h4>
+    <h1>{{ fees.pendingFees }}</h1>
+  </div>
+</div>
+
+<hr>
+
+<!-- EXAM ANALYSIS -->
+<h3>Exam Analysis</h3>
+<div class="cards-row two">
+  <div class="card green">
+    <h4>Passed</h4>
+    <h1>{{ exam.passed }}</h1>
+  </div>
+
+  <div class="card red">
+    <h4>Failed</h4>
+    <h1>{{ exam.failed }}</h1>
+  </div>
+</div>

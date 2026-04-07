@@ -81,51 +81,60 @@ export class Common {
   // =======================
   // ADMISSION METHODS
   // =======================
-  getAdmission(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/admission`);
-  }
+ getAdmission(): Observable<any> {
+  return this.http.get(`${this.apiUrl}/admission`);
+}
 
-  saveAdmission(data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/admission`, data);
-  }
+getAdmissionById(id: number): Observable<any> {
+  return this.http.get(`${this.apiUrl}/admission/${id}`);
+}
 
-  getAdmissionById(id: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/admission/${id}`);
-  }
+saveAdmission(data: any): Observable<any> {
+  return this.http.post(`${this.apiUrl}/admission`, data);
+}
 
-  updateAdmission(id: number, data: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/admission/${id}`, data);
-  }
+updateAdmission(id: number, data: any): Observable<any> {
+  return this.http.put(`${this.apiUrl}/admission/${id}`, data);
+}
 
-  deleteAdmission(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/admission/${id}`);
-  }
+deleteAdmission(id: number): Observable<any> {
+  return this.http.delete(`${this.apiUrl}/admission/${id}`);
+}
   getAdmissionsByCourse(courseId: number) {
   return this.http.get(`${this.apiUrl}/admission/course/${courseId}`);
 }
 
-  // =======================
-  // SCHOOLBUS METHODS
-  // =======================
-  getSchoolbus(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/schoolbus`);
-  }
+ // =======================
+// SCHOOLBUS METHODS
+// =======================
 
-  saveSchoolbus(data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/schoolbus`, data);
-  }
+// ✅ GET ALL
+getSchoolbus(): Observable<any> {
+  return this.http.get(`${this.apiUrl}/schoolbus/`);   // 🔥 trailing slash IMPORTANT
+}
 
-  getSchoolbusById(id: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/schoolbus/${id}`);
-  }
+// ✅ ADD
+saveSchoolbus(data: any): Observable<any> {
+  return this.http.post(`${this.apiUrl}/schoolbus/`, data);
+}
 
-  updateSchoolbus(id: number, data: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/schoolbus/${id}`, data);
-  }
+// ✅ GET BY ID
+getSchoolbusById(id: number): Observable<any> {
+  return this.http.get(`${this.apiUrl}/schoolbus/${id}`);
+}
 
-  deleteSchoolbus(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/schoolbus/${id}`);
-  }
+// ✅ UPDATE
+updateSchoolbus(id: number, data: any): Observable<any> {
+  return this.http.put(`${this.apiUrl}/schoolbus/${id}`, data);
+}
+
+// ✅ DELETE (FINAL FIX)
+deleteSchoolbus(id: number): Observable<any> {
+
+  console.log("🔥 DELETE API CALL:", `${this.apiUrl}/schoolbus/${id}`);
+
+  return this.http.delete(`${this.apiUrl}/schoolbus/${id}`);
+}
 
   // =======================
   // STUDENTBUS METHODS
@@ -198,6 +207,7 @@ deleteStudentbus(id: number) {
   getAllBooks(): Observable<any> {
     return this.http.get(`${this.apiUrl}/library`);
   }
+  
 
   // =======================
   // Book Issue METHODS
@@ -229,33 +239,42 @@ deleteStudentbus(id: number) {
   deleteBookIssue(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/bookissue/${id}`);
   }
+  deleteLibrary(id: number): Observable<any> {
+  return this.http.delete(`${this.apiUrl}/library/${id}`);
+}
 
    // ------------------- Timetable -------------------
 
-  // Timetable APIs
-  getTimeTable() {
-    return this.http.get(`${this.apiUrl}/timetable/all`);
-  }
-  
-  deleteTimeTable(id: number) {
-  return this.http.delete(this.apiUrl + '/timetable/' + id);
+// =======================
+// TIMETABLE METHODS
+// =======================
+
+// Get All Timetable
+getTimeTable(): Observable<any> {
+  return this.http.get(`${this.apiUrl}/timetable/all`);
 }
 
-  getTimetableById(id: number) {
-    return this.http.get(`${this.apiUrl}/timetable/${id}`);
-  }
+// Get Timetable By ID
+getTimetableById(id: number): Observable<any> {
+  return this.http.get(`${this.apiUrl}/timetable/${id}`);
+}
 
-  saveTimetable(data: any) {
-    return this.http.post(`${this.apiUrl}/timetable/add`, data);
-  }
+// Save Timetable
+saveTimetable(data: any): Observable<any> {
+  return this.http.post(`${this.apiUrl}/timetable/add`, data);
+}
 
-  updateTimetable(id: number, data: any) {
-    return this.http.put(`${this.apiUrl}/timetable/update/${id}`, data);
-  }
+// Update Timetable
+updateTimetable(id: number, data: any): Observable<any> {
+  return this.http.put(`${this.apiUrl}/timetable/update/${id}`, data);
+}
 
-  deleteTimetable(id: number) {
-    return this.http.delete(`${this.apiUrl}/timetable/delete/${id}`);
-  }
+// Delete Timetable
+deleteTimetable(id: number): Observable<any> {
+  return this.http.delete(`${this.apiUrl}/timetable/delete/${id}`);
+}
+
+  
 
    // =================== Attendance ===================
   getAttendance(): Observable<any> {

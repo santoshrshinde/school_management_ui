@@ -44,7 +44,7 @@ import { library } from './library';
     MatInputModule,
     MatFormFieldModule,
     MatSlideToggleModule,
-    FeesRoutingModule,
+  
     MatOptionModule,
     MatSelectModule,
     MatChipsModule,

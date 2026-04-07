@@ -1,7 +1,6 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { AfterViewInit, Component, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Common } from '../../serices/common';
@@ -9,23 +8,32 @@ import { ToastrService } from 'ngx-toastr';
 
 export interface TimeTable {
   TimeTableID: number;
-  Course: string;
+  CourseName: string;
   Day: string;
   TimeSlot: string;
   Subject: string;
-  Teacher: string;
+  TeacherName: string;
 }
 
 @Component({
   selector: 'app-list-timetable',
   templateUrl: './list-timetable.html',
-  standalone:false,
-  styleUrls: ['./list-timetable.sass']
+  styleUrls: ['./list-timetable.sass'],
+  standalone:false
 })
-export class ListTimeTable implements AfterViewInit {
-  displayedColumns: string[] = ['No', 'Course', 'Day', 'TimeSlot', 'Subject', 'Teacher', 'Action'];
-  dataSource = new MatTableDataSource<TimeTable>([]);
-  timetables: TimeTable[] = [];
+export class ListTimeTable implements OnInit {
+
+  displayedColumns: string[] = [
+    'No',
+    'Course',
+    'Day',
+    'TimeSlot',
+    'Subject',
+    'Teacher',
+    'Action'
+  ];
+
+  dataSource = new MatTableDataSource<any>([]);
   courses: any[] = [];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -33,84 +41,98 @@ export class ListTimeTable implements AfterViewInit {
 
   private commonService = inject(Common);
   private toastr = inject(ToastrService);
-  private _liveAnnouncer = inject(LiveAnnouncer);
 
   constructor(private router: Router) {}
 
-  ngAfterViewInit() {
+  ngOnInit() {
     this.loadTimeTable();
     this.loadCourses();
   }
 
-  // Load all timetables
+  // ✅ EXACT SAME AS TEACHER STYLE
   loadTimeTable() {
+
     this.commonService.getTimeTable().subscribe({
-      next: (data:any) => {
-        this.timetables = data;
+
+      next: (data: any) => {
+
+        console.log("API DATA:", data); // 🔥 DEBUG
+
+        // ✅ NO mapping → NO ID issue
         this.dataSource.data = data;
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+
+        setTimeout(() => {
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        });
+
       },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error('Failed to load timetables', 'Error');
+
+      error: () => {
+        this.toastr.error('Failed to load timetable');
       }
+
     });
+
   }
 
-  // Load all courses for dropdown
   loadCourses() {
     this.commonService.getCourse().subscribe({
-      next: (data: any[]) => {
+      next: (data: any) => {
         this.courses = data;
       },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error('Failed to load courses', 'Error');
+      error: () => {
+        this.toastr.error('Failed to load courses');
       }
     });
   }
 
-  // Filter by course name
-  onCourseChange(courseName: string) {
-    if (courseName === 'all') {
-      this.dataSource.data = this.timetables;
+  onCourseChange(course: string) {
+
+    if (course === 'all') {
+      this.loadTimeTable();
     } else {
-      this.dataSource.data = this.timetables.filter(t => t.Course === courseName);
+      this.dataSource.data = this.dataSource.data.filter(
+        (t: any) => t.CourseName === course
+      );
     }
-    if (this.paginator) this.paginator.firstPage();
+
+    if (this.paginator) {
+      this.paginator.firstPage();
+    }
+
   }
 
-  // Edit timetable
+  addTimetable() {
+    this.router.navigate(['/timetable/add-timetable']);
+  }
+
+  // ✅ EXACT SAME AS TEACHER
   edit(id: number) {
+
+    console.log("Edit ID:", id);
+
     this.router.navigate(['/timetable/edit-timetable', id]);
   }
-    // ✅ Add this function
-  addTimetable() {
-    this.router.navigateByUrl('/timetable/add-timetable'); // Navigate to AddTimetable component
-  }
 
-
-  // Delete timetable
+  // ✅ EXACT SAME AS TEACHER
   delete(id: number) {
-    this.commonService.deleteTimeTable(id).subscribe({
+
+    console.log("Delete ID:", id);
+
+    this.commonService.deleteTimetable(id).subscribe({
+
       next: () => {
-        this.toastr.success('Timetable deleted successfully', 'Success');
+        this.toastr.success('Deleted successfully');
         this.loadTimeTable();
       },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error('Failed to delete timetable', 'Error');
+
+      error: () => {
+        this.toastr.error('Delete failed');
       }
+
     });
+
   }
 
-  // Sorting announce for accessibility
-  announceSortChange(sortState: Sort) {
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
-  }
 }

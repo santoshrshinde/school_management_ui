@@ -88,9 +88,17 @@ export class ListFees implements AfterViewInit {
     });
   }
 
-  edit(id: number) {
-    this.router.navigate(['/fees/edit-fees', id]);
+edit(id: number) {
+
+  console.log("Edit Clicked ID:", id); // 🔥 MUST
+
+  if (!id) {
+    this.toastr.error('Invalid ID');
+    return;
   }
+
+  this.router.navigate(['/fees/edit-fees', id]);
+}
 
   isAllSelected() {
     const numSelected = this.selection.selected.length;

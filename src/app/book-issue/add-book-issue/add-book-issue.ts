@@ -37,16 +37,20 @@ export class AddBookIssue implements OnInit {
   students: any[] = [];
   books: any[] = [];
 
-  ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.issueId = +params['id'] || 0;
-      this.loadStudents();
-      this.loadBooks();
-      if (this.issueId) {
-        this.loadBookIssueDetails(this.issueId);
-      }
-    });
-  }
+ngOnInit() {
+  this.route.params.subscribe(params => {
+
+    this.issueId = Number(params['id']) || 0; // ✅ FIX
+
+    this.loadStudents();
+    this.loadBooks();
+
+    if (this.issueId) {
+      this.loadBookIssueDetails(this.issueId);
+    }
+
+  });
+}
 
   loadStudents() {
     this.commonService.getStudent().subscribe({
@@ -87,33 +91,40 @@ export class AddBookIssue implements OnInit {
     });
   }
 
-  save() {
-    if (this.issueId) {
-      this.commonService.updateBookIssue(this.issueId, this.bookIssue).subscribe({
-        next: () => {
-          this.toastr.success('Book issue updated successfully', 'Success');
-          this.router.navigateByUrl('book-issue/book-issue');
-        },
-        error: (err: any) => {
-          console.error('Error updating book issue', err);
-          this.toastr.error('Failed to update book issue', 'Error');
-        }
-      });
-    } else {
-      this.commonService.saveBookIssue(this.bookIssue).subscribe({
-        next: () => {
-          this.toastr.success('Book issued successfully', 'Success');
-          this.router.navigateByUrl('book-issue/book-issue');
-        },
-        error: (err: any) => {
-          console.error('Error issuing book', err);
-          this.toastr.error('Failed to issue book', 'Error');
-        }
-      });
-    }
+save() {
+
+  if (this.issueId) {
+
+    this.commonService.updateBookIssue(this.issueId, this.bookIssue).subscribe({
+      next: () => {
+        this.toastr.success('Book issue updated successfully', 'Success');
+        this.router.navigateByUrl('book-issue/list-book-issue'); // ✅ FIX
+      },
+      error: () => {
+        this.toastr.error('Failed to update book issue', 'Error');
+      }
+    });
+
+  } else {
+
+    this.commonService.saveBookIssue(this.bookIssue).subscribe({
+      next: () => {
+        this.toastr.success('Book issued successfully', 'Success');
+        this.router.navigateByUrl('book-issue/list-book-issue'); // ✅ FIX
+      },
+      error: () => {
+        this.toastr.error('Failed to issue book', 'Error');
+      }
+    });
+
   }
+
+}
 
   cancel() {
     this.router.navigateByUrl('book-issue/book-issue');
   }
+  edit(issueId: number) {
+  this.router.navigate(['book-issue/edit-book-issue', issueId]);
+}
 }

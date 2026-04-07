@@ -47,10 +47,19 @@ export class ListBookIssue implements OnInit {
     this.router.navigate(['book-issue/add-book-issue']);
   }
 
-  edit(issueId: number) {
-    this.router.navigate(['book-issue/add-book-issue', issueId]);
+edit(issueId: number) {
+
+  console.log("Edit ID:", issueId); // DEBUG
+
+  if (!issueId) {
+    this.toastr.error('Invalid ID');
+    return;
   }
 
+  // ✅ CORRECT ROUTE
+  this.router.navigate(['book-issue/edit-book-issue', issueId]);
+
+}
   delete(issueId: number) {
     if (confirm('Are you sure you want to delete this book issue record?')) {
       this.commonService.deleteBookIssue(issueId).subscribe({
@@ -70,3 +79,4 @@ export class ListBookIssue implements OnInit {
     console.log('Sorted by:', sortState.active, sortState.direction);
   }
 }
+ 
