@@ -53,4 +53,7 @@ export class DashboardService {
   getExamAnalysis(): Observable<ExamAnalysis> {
     return this.http.get<ExamAnalysis>(`${this.baseUrl}/exam-analysis`);
   }
+  getStudentCourseWise(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.baseUrl}/student-course-wise`);
+}
 }

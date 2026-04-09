@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from './dashboard.service';
-import Chart from 'chart.js/auto';
-
-/* =========================
-   Interfaces (Strong Typing)
-========================= */
+import { Common } from '../serices/common';
 
 interface Summary {
   totalStudents: number;
@@ -33,12 +29,20 @@ interface ExamAnalysis {
   selector: 'app-dashboard',
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.sass'],
-  standalone: false
+  standalone:false
 })
 export class Dashboard implements OnInit {
 
-  chart: any;
+  // ✅ Chart (ng2-charts)
+  lineLabels: string[] = [];
+  lineData: any[] = [
+    {
+      data: [],
+      label: 'Students per Course'
+    }
+  ];
 
+  // ✅ Dashboard Data
   summary: Summary = {
     totalStudents: 0,
     totalTeachers: 0,
@@ -62,17 +66,21 @@ export class Dashboard implements OnInit {
     failed: 0
   };
 
-  constructor(private dashboardService: DashboardService) {}
+  constructor(
+    private dashboardService: DashboardService,
+    private commonService: Common
+  ) {}
 
   ngOnInit(): void {
     this.loadDashboard();
+    this.loadCourseWise();   // ✅ ONLY THIS CHART
   }
 
+  // ✅ Dashboard Summary
   loadDashboard(): void {
 
     this.dashboardService.getSummary().subscribe((res: Summary) => {
       this.summary = res;
-      this.createChart();
     });
 
     this.dashboardService.getLibraryAnalysis().subscribe((res: LibraryAnalysis) => {
@@ -88,52 +96,23 @@ export class Dashboard implements OnInit {
     });
   }
 
-  createChart(): void {
-    const ctx = document.getElementById('adminBarChart') as HTMLCanvasElement;
-    if (!ctx) return;
+  // ✅ MAIN CHART LOGIC (Course Wise Students)
+  loadCourseWise(): void {
 
-    if (this.chart) {
-      this.chart.destroy();
-    }
+    this.dashboardService.getStudentCourseWise().subscribe((res: any[]) => {
 
-    this.chart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['Students', 'Teachers', 'Courses', 'Admissions'],
-        datasets: [
-          {
-            label: 'School Summary',
-            data: [
-              this.summary.totalStudents,
-              this.summary.totalTeachers,
-              this.summary.totalCourses,
-              this.summary.totalAdmissions
-            ],
-            backgroundColor: [
-              '#bbdefb',
-              '#c8e6c9',
-              '#ffe0b2',
-              '#e1bee7'
-            ],
-            borderColor: [
-              '#1e88e5',
-              '#43a047',
-              '#fb8c00',
-              '#8e24aa'
-            ],
-            borderWidth: 1
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: { display: true }
-        },
-        scales: {
-          y: { beginAtZero: true }
+      console.log("Course Wise Data:", res); // 🔥 DEBUG
+
+      // 👉 IMPORTANT: fallback for null/empty
+      this.lineLabels = res.map((x: any) => x.course || 'Unknown');
+
+      this.lineData = [
+        {
+          data: res.map((x: any) => x.count),
+          label: 'Students per Course'
         }
-      }
+      ];
     });
   }
+
 }

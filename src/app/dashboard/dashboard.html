@@ -1,6 +1,6 @@
 <h2 class="title">Admin Dashboard</h2>
 
-<!-- SUMMARY : 4 CARDS IN ONE ROW -->
+<!-- SUMMARY -->
 <div class="cards-row four">
   <div class="card blue">
     <h4>Students</h4>
@@ -25,7 +25,20 @@
 
 <hr>
 
-<!-- LIBRARY ANALYSIS -->
+<!-- 🎓 STUDENT ANALYSIS -->
+<h3>🎓 Student Course Analysis</h3>
+
+<div style="width: 100%; max-width: 700px; margin: auto;">
+  <canvas
+    baseChart
+    [datasets]="lineData"
+    [labels]="lineLabels"
+    [type]="'bar'">
+  </canvas>
+</div>
+<hr>
+
+<!-- LIBRARY -->
 <h3>Library Analysis</h3>
 <div class="cards-row three">
   <div class="card teal">
@@ -46,7 +59,7 @@
 
 <hr>
 
-<!-- FEES ANALYSIS -->
+<!-- FEES -->
 <h3>Fees Analysis</h3>
 <div class="cards-row two">
   <div class="card blue">
@@ -62,7 +75,7 @@
 
 <hr>
 
-<!-- EXAM ANALYSIS -->
+<!-- EXAM -->
 <h3>Exam Analysis</h3>
 <div class="cards-row two">
   <div class="card green">

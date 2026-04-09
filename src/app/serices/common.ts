@@ -31,6 +31,7 @@ export class Common {
   deleteStudent(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/students/${id}`);
   }
+  
 
   // =======================
   // TEACHER METHODS
