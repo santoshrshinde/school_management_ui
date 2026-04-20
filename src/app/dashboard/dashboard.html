@@ -109,26 +109,27 @@
 </div>
 
 <h4>💰 Paid vs Pending</h4>
-<<div style="width: 300px; height: 300px; margin: auto;">
+<div style="width: 300px; height: 300px;">
   <canvas baseChart
     [data]="feesPieData"
     [type]="'pie'">
   </canvas>
 </div>
-
 <h4>📊 Course-wise Fees</h4>
-<canvas baseChart
-  [datasets]="feesBarData.datasets"
-  [labels]="feesBarData.labels"
-  [type]="'bar'">
-</canvas>
-<h4>📈 Monthly Revenue</h4>
-<canvas baseChart
-  [datasets]="feesLineData.datasets"
-  [labels]="feesLineData.labels"
-  [type]="'line'">
-</canvas>
+<div style="width: 600px; height: 350px;">
+  <canvas baseChart
+    [data]="feesBarData"
+    [type]="'bar'">
+  </canvas>
+</div>
 
+<h4>📈 Monthly Revenue</h4>
+<div style="width: 600px; height: 350px;">
+  <canvas baseChart
+    [data]="feesLineData"
+    [type]="'line'">
+  </canvas>
+</div>
 <h4>⚠️ Top Defaulters</h4>
 
 <table border="1">
@@ -150,7 +151,40 @@
   }}% fees still pending → need action ⚠️
 </p>
 <hr>
+<hr>
 
+<h3>🚌 Transport Analysis</h3>
+
+<!-- MOST USED BUS -->
+<div class="cards-row two">
+  <div class="card green">
+    <h4>Most Used Bus</h4>
+    <h1>{{ mostUsedBus?.bus }}</h1>
+    <p>{{ mostUsedBus?.count }} Students</p>
+  </div>
+
+  <div class="card red">
+    <h4>Empty Buses</h4>
+    <h1>{{ emptyBuses.length }}</h1>
+  </div>
+</div>
+
+<!-- BAR CHART -->
+<h4>📊 Bus-wise Student Count</h4>
+<div style="height: 300px;">
+  <canvas baseChart
+    [data]="transportBarData"
+    [type]="'bar'">
+  </canvas>
+</div>
+
+<!-- EMPTY BUS LIST -->
+<h4>⚠️ Empty Buses</h4>
+<ul>
+  <li *ngFor="let bus of emptyBuses">
+    {{ bus }}
+  </li>
+</ul>
 <!-- EXAM -->
 <h3>Exam Analysis</h3>
 <div class="cards-row two">

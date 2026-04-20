@@ -95,6 +95,9 @@ export class Dashboard implements OnInit {
   feesBarData: any = { labels: [], datasets: [{ data: [], label: 'Fees' }] };
   feesLineData: any = { labels: [], datasets: [{ data: [], label: 'Revenue' }] };
   defaulters: any[] = [];
+  transportBarData: any = { labels: [], datasets: [{ data: [], label: 'Students' }] };
+  mostUsedBus: any = {};
+  emptyBuses: string[] = [];
 
   constructor(
     private dashboardService: DashboardService,
@@ -107,6 +110,7 @@ export class Dashboard implements OnInit {
     this.loadCourseWise();
     this.loadBooksChart();
     this.loadFeesCharts();
+    this.loadTransportAnalysis();
   }
 
   // ✅ 🔥 FIX HERE
@@ -218,4 +222,29 @@ export class Dashboard implements OnInit {
       }, 100);
     });
   }
+  loadTransportAnalysis() {
+  this.dashboardService.getTransportAnalysis().subscribe((res: any) => {
+
+    console.log("Transport Data:", res);
+
+    // 🟢 Bar Chart (Bus-wise students)
+    this.transportBarData = {
+      labels: res.busData.map((b: any) => b.bus),
+      datasets: [
+        {
+          data: res.busData.map((b: any) => b.count),
+          label: 'Students per Bus'
+        }
+      ]
+    };
+
+    // 🔵 Most Used
+    this.mostUsedBus = res.mostUsed;
+
+    // 🔴 Empty Buses
+    this.emptyBuses = res.emptyBuses;
+
+    this.cdr.detectChanges();
+  });
+}
 }

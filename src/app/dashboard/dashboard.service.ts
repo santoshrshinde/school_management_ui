@@ -59,4 +59,7 @@ export class DashboardService {
 getBooksAnalysis(): Observable<any[]> {
   return this.http.get<any[]>(`${this.baseUrl}/books-analysis`);
 }
+getTransportAnalysis() {
+  return this.http.get<any>('http://localhost:5000/dashboard/transport-analysis');
+}
 }
