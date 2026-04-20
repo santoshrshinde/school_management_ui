@@ -4,75 +4,151 @@
 <div class="cards-row four">
   <div class="card blue">
     <h4>Students</h4>
-    <h1>{{ summary.totalStudents }}</h1>
+    <h1>{{ summary.totalStudents || 0 }}</h1>
   </div>
 
   <div class="card green">
     <h4>Teachers</h4>
-    <h1>{{ summary.totalTeachers }}</h1>
+    <h1>{{ summary.totalTeachers || 0 }}</h1>
   </div>
 
   <div class="card orange">
     <h4>Courses</h4>
-    <h1>{{ summary.totalCourses }}</h1>
+    <h1>{{ summary.totalCourses || 0 }}</h1>
   </div>
 
   <div class="card purple">
     <h4>Admissions</h4>
-    <h1>{{ summary.totalAdmissions }}</h1>
+    <h1>{{ summary.totalAdmissions || 0 }}</h1>
   </div>
 </div>
 
 <hr>
 
-<!-- 🎓 STUDENT ANALYSIS -->
+<!-- 🎓 COURSE CHART -->
 <h3>🎓 Student Course Analysis</h3>
 
-<div style="width: 100%; max-width: 700px; margin: auto;">
-  <canvas
-    baseChart
+<div style="height: 400px;">
+  <canvas baseChart
     [datasets]="lineData"
     [labels]="lineLabels"
     [type]="'bar'">
   </canvas>
 </div>
+
 <hr>
 
 <!-- LIBRARY -->
+
 <h3>Library Analysis</h3>
+
 <div class="cards-row three">
   <div class="card teal">
     <h4>Total Books</h4>
-    <h1>{{ library.totalBooks }}</h1>
+    <h1>{{ library.totalBooks || 0 }}</h1>
   </div>
 
   <div class="card red">
     <h4>Issued</h4>
-    <h1>{{ library.issuedBooks }}</h1>
+    <h1>{{ library.issuedBooks || 0 }}</h1>
   </div>
 
   <div class="card green">
     <h4>Available</h4>
-    <h1>{{ library.availableBooks }}</h1>
+    <h1>{{ library.availableBooks || 0 }}</h1>
   </div>
 </div>
 
+
+
+<h4>📊 Books per Category</h4>
+<div style="display:block; height:400px;">
+  <canvas baseChart
+    [data]="barChartData"
+    [type]="'bar'">
+  </canvas>
+</div>
+
 <hr>
+
+<h4>🥧 Books Distribution</h4>
+<div style="display:block; height:400px;">
+  <canvas baseChart
+    [data]="pieChartData"
+    [type]="'pie'">
+  </canvas>
+</div>
+
+<hr>
+
+<h4>📈 Issued Trend</h4>
+<div style="display:block; height:400px;">
+  <canvas baseChart
+    [data]="lineChartLibData"
+    [type]="'line'">
+  </canvas>
+</div>
+<hr>
+
+
+<br>
+<br>
 
 <!-- FEES -->
 <h3>Fees Analysis</h3>
 <div class="cards-row two">
   <div class="card blue">
     <h4>Paid</h4>
-    <h1>{{ fees.paidFees }}</h1>
+    <h1>{{ fees.paidFees || 0 }}</h1>
   </div>
 
   <div class="card orange">
     <h4>Pending</h4>
-    <h1>{{ fees.pendingFees }}</h1>
+    <h1>{{ fees.pendingFees || 0 }}</h1>
   </div>
 </div>
 
+<h4>💰 Paid vs Pending</h4>
+<<div style="width: 300px; height: 300px; margin: auto;">
+  <canvas baseChart
+    [data]="feesPieData"
+    [type]="'pie'">
+  </canvas>
+</div>
+
+<h4>📊 Course-wise Fees</h4>
+<canvas baseChart
+  [datasets]="feesBarData.datasets"
+  [labels]="feesBarData.labels"
+  [type]="'bar'">
+</canvas>
+<h4>📈 Monthly Revenue</h4>
+<canvas baseChart
+  [datasets]="feesLineData.datasets"
+  [labels]="feesLineData.labels"
+  [type]="'line'">
+</canvas>
+
+<h4>⚠️ Top Defaulters</h4>
+
+<table border="1">
+  <tr>
+    <th>Name</th>
+    <th>Pending</th>
+  </tr>
+
+  <tr *ngFor="let d of defaulters">
+    <td>{{ d.name }}</td>
+    <td>{{ d.pending }}</td>
+  </tr>
+</table>
+<p *ngIf="feesPieData.datasets[0].data.length">
+  {{
+    (feesPieData.datasets[0].data[1] /
+    (feesPieData.datasets[0].data[0] + feesPieData.datasets[0].data[1]) * 100)
+    | number:'1.0-0'
+  }}% fees still pending → need action ⚠️
+</p>
 <hr>
 
 <!-- EXAM -->
@@ -80,11 +156,11 @@
 <div class="cards-row two">
   <div class="card green">
     <h4>Passed</h4>
-    <h1>{{ exam.passed }}</h1>
+    <h1>{{ exam.passed || 0 }}</h1>
   </div>
 
   <div class="card red">
     <h4>Failed</h4>
-    <h1>{{ exam.failed }}</h1>
+    <h1>{{ exam.failed || 0 }}</h1>
   </div>
 </div>

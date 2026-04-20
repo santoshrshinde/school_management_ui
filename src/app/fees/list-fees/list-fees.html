@@ -45,6 +45,15 @@
       {{ element.DueDate | date }}
     </td>
   </ng-container>
+  <!-- Payment Date Column -->
+<ng-container matColumnDef="PaymentDate">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+    Payment Date
+  </th>
+  <td mat-cell *matCellDef="let element">
+    {{ element.PaymentDate | date }}
+  </td>
+</ng-container>
 
   <!-- Paid Amount Column -->
   <ng-container matColumnDef="PaidAmount">

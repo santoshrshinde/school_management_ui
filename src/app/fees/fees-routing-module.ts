@@ -17,7 +17,7 @@ const routes: Routes = [
         {
           path: 'add-fees',
           component: AddFees
-        },
+        }, 
         {
           path: 'edit-fees/:id',
           component: AddFees

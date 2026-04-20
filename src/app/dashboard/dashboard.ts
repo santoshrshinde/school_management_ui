@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from './dashboard.service';
 import { Common } from '../serices/common';
+import { ChangeDetectorRef } from '@angular/core';
 
 interface Summary {
   totalStudents: number;
@@ -33,7 +34,6 @@ interface ExamAnalysis {
 })
 export class Dashboard implements OnInit {
 
-  // ✅ Chart (ng2-charts)
   lineLabels: string[] = [];
   lineData: any[] = [
     {
@@ -42,7 +42,6 @@ export class Dashboard implements OnInit {
     }
   ];
 
-  // ✅ Dashboard Data
   summary: Summary = {
     totalStudents: 0,
     totalTeachers: 0,
@@ -56,6 +55,7 @@ export class Dashboard implements OnInit {
     availableBooks: 0
   };
 
+  // ✅ FIXED
   fees: FeesAnalysis = {
     paidFees: 0,
     pendingFees: 0
@@ -66,17 +66,50 @@ export class Dashboard implements OnInit {
     failed: 0
   };
 
+  pieChartData: any = {
+    labels: ['Issued', 'Available'],
+    datasets: [{ data: [] }]
+  };
+
+  barChartData: any = {
+    labels: [],
+    datasets: [
+      {
+        data: [],
+        label: 'Books per Category'
+      }
+    ]
+  };
+
+  lineChartLibData: any = {
+    labels: [],
+    datasets: [
+      {
+        data: [],
+        label: 'Books Trend'
+      }
+    ]
+  };
+
+  feesPieData: any = { labels: [], datasets: [{ data: [] }] };
+  feesBarData: any = { labels: [], datasets: [{ data: [], label: 'Fees' }] };
+  feesLineData: any = { labels: [], datasets: [{ data: [], label: 'Revenue' }] };
+  defaulters: any[] = [];
+
   constructor(
     private dashboardService: DashboardService,
-    private commonService: Common
+    private commonService: Common,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.loadDashboard();
-    this.loadCourseWise();   // ✅ ONLY THIS CHART
+    this.loadCourseWise();
+    this.loadBooksChart();
+    this.loadFeesCharts();
   }
 
-  // ✅ Dashboard Summary
+  // ✅ 🔥 FIX HERE
   loadDashboard(): void {
 
     this.dashboardService.getSummary().subscribe((res: Summary) => {
@@ -87,8 +120,16 @@ export class Dashboard implements OnInit {
       this.library = res;
     });
 
-    this.dashboardService.getFeesAnalysis().subscribe((res: FeesAnalysis) => {
-      this.fees = res;
+    // ✅ FIXED MAPPING
+    this.dashboardService.getFeesAnalysis().subscribe((res: any) => {
+
+      console.log("Fees API Response:", res);
+
+      this.fees = {
+        paidFees: res.paid || 0,
+        pendingFees: res.pending || 0
+      };
+
     });
 
     this.dashboardService.getExamAnalysis().subscribe((res: ExamAnalysis) => {
@@ -96,23 +137,85 @@ export class Dashboard implements OnInit {
     });
   }
 
-  // ✅ MAIN CHART LOGIC (Course Wise Students)
   loadCourseWise(): void {
-
     this.dashboardService.getStudentCourseWise().subscribe((res: any[]) => {
 
-      console.log("Course Wise Data:", res); // 🔥 DEBUG
-
-      // 👉 IMPORTANT: fallback for null/empty
-      this.lineLabels = res.map((x: any) => x.course || 'Unknown');
-
+      this.lineLabels = res.map(x => x.course);
       this.lineData = [
         {
-          data: res.map((x: any) => x.count),
+          data: res.map(x => x.count),
           label: 'Students per Course'
         }
       ];
     });
   }
 
+  loadBooksChart(): void {
+    this.dashboardService.getBooksAnalysis().subscribe((res: any[]) => {
+
+      if (!res || res.length === 0) return;
+
+      const labels = res.map(x => x.book);
+      const available = res.map(x => x.available);
+      const issued = res.map(x => x.total - x.available);
+      const total = res.map(x => x.total);
+
+      setTimeout(() => {
+
+        this.barChartData = {
+          labels: [...labels],
+          datasets: [
+            { data: [...available], label: 'Available Books' },
+            { data: [...issued], label: 'Issued Books' }
+          ]
+        };
+
+        this.pieChartData = {
+          labels: [...labels],
+          datasets: [
+            { data: [...total] }
+          ]
+        };
+
+        this.lineChartLibData = {
+          labels: [...labels],
+          datasets: [
+            { data: [...issued], label: 'Issued Trend' }
+          ]
+        };
+
+        this.cdr.detectChanges();
+
+      }, 100);
+    });
+  }
+
+  // ✅ 🔥 FIXED CHART ALSO
+  loadFeesCharts() {
+    this.dashboardService.getFeesAnalysis().subscribe((res: any) => {
+
+      setTimeout(() => {
+
+        this.feesPieData = {
+          labels: ['Paid', 'Pending'],
+          datasets: [{ data: [res.paid || 0, res.pending || 0] }]
+        };
+
+        this.feesBarData = {
+          labels: res.courseData.map((c: any) => c.course),
+          datasets: [{ data: res.courseData.map((c: any) => c.total), label: 'Fees' }]
+        };
+
+        this.feesLineData = {
+          labels: res.monthlyData.map((m: any) => 'Month ' + m.month),
+          datasets: [{ data: res.monthlyData.map((m: any) => m.total), label: 'Revenue' }]
+        };
+
+        this.defaulters = res.defaulters;
+
+        this.cdr.detectChanges();
+
+      }, 100);
+    });
+  }
 }

@@ -20,6 +20,7 @@ export class AddFees implements OnInit {
     FeesID:'',
     Amount:'',
     DueDate:'',
+    PaymentDate:'',
     StudentID:'',
     PaidAmount:'',
     TotalFee:''

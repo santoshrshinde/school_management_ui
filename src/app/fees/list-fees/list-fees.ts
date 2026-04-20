@@ -11,7 +11,8 @@ import { ToastrService } from 'ngx-toastr';
 export interface Fees {
   FeesID: number;
   Amount: number;
-  DueDate: string;      // 'yyyy-MM-dd' format from API
+  DueDate: string;  
+   PaymentDate: string;     // 'yyyy-MM-dd' format from API
   StudentID: number;
   PaidAmount: number;
   TotalFee: number;
@@ -30,6 +31,7 @@ export class ListFees implements AfterViewInit {
     'No',
     'Amount',
     'DueDate',
+    'PaymentDate',
     'PaidAmount',
     'StudentName',
     'TotalFee',

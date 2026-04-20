@@ -5,7 +5,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { NgModule, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { Chart, registerables } from 'chart.js';  // ✅ ADD
+Chart.register(...registerables);
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
 import { NotFound } from './not-found/not-found';
@@ -15,6 +16,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { Sidebar } from './sidebar/sidebar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AuthInterceptor } from './core/auth-interceptor';
+import { NgChartsModule } from 'ng2-charts';
 
 
 
@@ -37,7 +39,8 @@ import { AuthInterceptor } from './core/auth-interceptor';
     MatButtonModule,
     MatToolbarModule,
     MatExpansionModule,
-    
+    NgChartsModule
+
     
 ],
   providers: [
