@@ -89,7 +89,60 @@
   </canvas>
 </div>
 <hr>
+<hr>
 
+<h3>📚 Students Current Books</h3>
+
+<table border="1">
+  <tr>
+    <th>Student Name</th>
+    <th>Total Books</th>
+    <th>Book Names</th>
+  </tr>
+
+  <tr *ngFor="let s of studentBooks">
+    <td>{{ s.name }}</td>
+    <td>{{ s.count }}</td>
+    <td>{{ s.books }}</td>
+  </tr>
+</table>
+<h3>📚 Book Issue Analysis</h3>
+
+<!-- 📊 Top Issued Books -->
+<h4>Top Issued Books</h4>
+<div style="width: 600px; height: 300px;">
+  <canvas baseChart
+    [data]="topBooksData"
+    [type]="'bar'">
+  </canvas>
+</div>
+
+<!-- 👨‍🎓 Most Active Students -->
+<h4>Most Active Students</h4>
+<div style="width: 600px; height: 300px;">
+  <canvas baseChart
+    [data]="activeStudentsData"
+    [type]="'bar'">
+  </canvas>
+</div>
+
+<!-- ⚠️ Overdue Books -->
+<h4>Overdue Books</h4>
+<table border="1">
+  <tr>
+    <th>Student</th>
+    <th>Book</th>
+    <th>Issue Date</th>
+    <th>Return Date</th>
+  </tr>
+
+  <tr *ngFor="let o of overdueBooks">
+    <td>{{ o.student }}</td>
+    <td>{{ o.book }}</td>
+    <td>{{ o.issueDate }}</td>
+    <td>{{ o.returnDate }}</td>
+  </tr>
+</table>
 
 <br>
 <br>

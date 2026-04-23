@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, inject, AfterViewInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -10,16 +10,25 @@ import { Common } from '../../serices/common';
   selector: 'app-list-book-issue',
   templateUrl: './list-book-issue.html',
   styleUrls: ['./list-book-issue.sass'],
-  standalone: false,
+  standalone: false
 })
-export class ListBookIssue implements OnInit {
+export class ListBookIssue implements OnInit, AfterViewInit {
+
   private commonService = inject(Common);
   private router = inject(Router);
-  private cdr = inject(ChangeDetectorRef);
-  private toastr: ToastrService = inject(ToastrService);
+  private toastr = inject(ToastrService);
 
-  displayedColumns: string[] = ['No', 'StudentName', 'BookName', 'IssueDate', 'ReturnDate', 'Status', 'Action'];
-  dataSource = new MatTableDataSource<any>([]);
+  displayedColumns: string[] = [
+    'No',
+    'StudentName',
+    'BookName',
+    'IssueDate',
+    'ReturnDate',
+    'Status',
+    'Action'
+  ];
+
+  dataSource = new MatTableDataSource<any>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -28,17 +37,22 @@ export class ListBookIssue implements OnInit {
     this.loadBookIssues();
   }
 
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  // 🔥 FIXED LOADING
   loadBookIssues() {
     this.commonService.getBookIssues().subscribe({
-      next: (data: any) => {
-        this.dataSource.data = data;
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.cdr.detectChanges();
+      next: (data: any[]) => {
+
+        // ✅ Important: new reference for Angular refresh
+        this.dataSource.data = [...data];
+
       },
-      error: (err: any) => {
-        console.error('Failed to load book issues', err);
-        this.toastr.error('Failed to load book issues', 'Error');
+      error: () => {
+        this.toastr.error('Failed to load book issues');
       }
     });
   }
@@ -47,36 +61,25 @@ export class ListBookIssue implements OnInit {
     this.router.navigate(['book-issue/add-book-issue']);
   }
 
-edit(issueId: number) {
-
-  console.log("Edit ID:", issueId); // DEBUG
-
-  if (!issueId) {
-    this.toastr.error('Invalid ID');
-    return;
+  edit(issueId: number) {
+    if (!issueId) {
+      this.toastr.error('Invalid ID');
+      return;
+    }
+    this.router.navigate(['book-issue/edit-book-issue', issueId]);
   }
 
-  // ✅ CORRECT ROUTE
-  this.router.navigate(['book-issue/edit-book-issue', issueId]);
-
-}
   delete(issueId: number) {
-    if (confirm('Are you sure you want to delete this book issue record?')) {
+    if (confirm('Are you sure?')) {
       this.commonService.deleteBookIssue(issueId).subscribe({
         next: () => {
-          this.toastr.success('Book issue deleted successfully', 'Success');
-          this.loadBookIssues();
+          this.toastr.success('Deleted successfully');
+          this.loadBookIssues(); // 🔥 reload after delete
         },
-        error: (err: any) => {
-          console.error('Failed to delete book issue', err);
-          this.toastr.error('Failed to delete book issue', 'Error');
+        error: () => {
+          this.toastr.error('Delete failed');
         }
       });
     }
   }
-
-  announceSortChange(sortState: Sort) {
-    console.log('Sorted by:', sortState.active, sortState.direction);
-  }
 }
- 

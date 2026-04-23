@@ -62,4 +62,10 @@ getBooksAnalysis(): Observable<any[]> {
 getTransportAnalysis() {
   return this.http.get<any>('http://localhost:5000/dashboard/transport-analysis');
 }
+getBookIssueAnalysis() {
+  return this.http.get<any>('http://localhost:5000/dashboard/book-issue-analysis');
+}
+getStudentBookDetails() {
+  return this.http.get<any[]>('http://localhost:5000/dashboard/student-book-details');
+}
 }

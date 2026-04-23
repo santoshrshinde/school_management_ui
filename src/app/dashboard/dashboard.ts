@@ -55,7 +55,6 @@ export class Dashboard implements OnInit {
     availableBooks: 0
   };
 
-  // ✅ FIXED
   fees: FeesAnalysis = {
     paidFees: 0,
     pendingFees: 0
@@ -95,9 +94,16 @@ export class Dashboard implements OnInit {
   feesBarData: any = { labels: [], datasets: [{ data: [], label: 'Fees' }] };
   feesLineData: any = { labels: [], datasets: [{ data: [], label: 'Revenue' }] };
   defaulters: any[] = [];
+
   transportBarData: any = { labels: [], datasets: [{ data: [], label: 'Students' }] };
   mostUsedBus: any = {};
   emptyBuses: string[] = [];
+
+  topBooksData: any = { labels: [], datasets: [{ data: [], label: 'Issued Count' }] };
+  activeStudentsData: any = { labels: [], datasets: [{ data: [], label: 'Books Borrowed' }] };
+  overdueBooks: any[] = [];
+
+  studentBooks: any[] = [];
 
   constructor(
     private dashboardService: DashboardService,
@@ -111,9 +117,11 @@ export class Dashboard implements OnInit {
     this.loadBooksChart();
     this.loadFeesCharts();
     this.loadTransportAnalysis();
+    this.loadBookIssueAnalysis();
+    this.loadStudentBooks();
   }
 
-  // ✅ 🔥 FIX HERE
+  // ================= DASHBOARD =================
   loadDashboard(): void {
 
     this.dashboardService.getSummary().subscribe((res: Summary) => {
@@ -124,10 +132,7 @@ export class Dashboard implements OnInit {
       this.library = res;
     });
 
-    // ✅ FIXED MAPPING
     this.dashboardService.getFeesAnalysis().subscribe((res: any) => {
-
-      console.log("Fees API Response:", res);
 
       this.fees = {
         paidFees: res.paid || 0,
@@ -141,6 +146,7 @@ export class Dashboard implements OnInit {
     });
   }
 
+  // ================= COURSE =================
   loadCourseWise(): void {
     this.dashboardService.getStudentCourseWise().subscribe((res: any[]) => {
 
@@ -154,6 +160,7 @@ export class Dashboard implements OnInit {
     });
   }
 
+  // ================= LIBRARY =================
   loadBooksChart(): void {
     this.dashboardService.getBooksAnalysis().subscribe((res: any[]) => {
 
@@ -175,9 +182,9 @@ export class Dashboard implements OnInit {
         };
 
         this.pieChartData = {
-          labels: [...labels],
+          labels: ['Issued', 'Available'],
           datasets: [
-            { data: [...total] }
+            { data: [issued.reduce((a,b)=>a+b,0), available.reduce((a,b)=>a+b,0)] }
           ]
         };
 
@@ -194,7 +201,39 @@ export class Dashboard implements OnInit {
     });
   }
 
-  // ✅ 🔥 FIXED CHART ALSO
+  // ================= BOOK ISSUE =================
+  loadBookIssueAnalysis() {
+  this.dashboardService.getBookIssueAnalysis().subscribe((res: any) => {
+
+    if (!res) return;
+
+    this.topBooksData = {
+      labels: res.topBooks?.map((b: any) => b.book) || [],
+      datasets: [
+        {
+          data: res.topBooks?.map((b: any) => b.count) || [],
+          label: 'Top Issued Books'
+        }
+      ]
+    };
+
+    this.activeStudentsData = {
+      labels: res.activeStudents?.map((s: any) => s.name) || [],
+      datasets: [
+        {
+          data: res.activeStudents?.map((s: any) => s.count) || [],
+          label: 'Most Active Students'
+        }
+      ]
+    };
+
+    this.overdueBooks = res.overdue || [];
+
+    this.cdr.detectChanges();
+  });
+}
+
+  // ================= FEES =================
   loadFeesCharts() {
     this.dashboardService.getFeesAnalysis().subscribe((res: any) => {
 
@@ -222,29 +261,44 @@ export class Dashboard implements OnInit {
       }, 100);
     });
   }
+
+  // ================= TRANSPORT =================
   loadTransportAnalysis() {
-  this.dashboardService.getTransportAnalysis().subscribe((res: any) => {
+    this.dashboardService.getTransportAnalysis().subscribe((res: any) => {
 
-    console.log("Transport Data:", res);
+      this.transportBarData = {
+        labels: res.busData.map((b: any) => b.bus),
+        datasets: [
+          {
+            data: res.busData.map((b: any) => b.count),
+            label: 'Students per Bus'
+          }
+        ]
+      };
 
-    // 🟢 Bar Chart (Bus-wise students)
-    this.transportBarData = {
-      labels: res.busData.map((b: any) => b.bus),
-      datasets: [
-        {
-          data: res.busData.map((b: any) => b.count),
-          label: 'Students per Bus'
-        }
-      ]
-    };
+      this.mostUsedBus = res.mostUsed;
+      this.emptyBuses = res.emptyBuses;
 
-    // 🔵 Most Used
-    this.mostUsedBus = res.mostUsed;
+      this.cdr.detectChanges();
+    });
+  }
 
-    // 🔴 Empty Buses
-    this.emptyBuses = res.emptyBuses;
+  // ================= STUDENT BOOKS =================
+  loadStudentBooks() {
+    this.dashboardService.getStudentBookDetails().subscribe({
+      next: (res: any[]) => {
+        this.studentBooks = res;
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
+  }
 
-    this.cdr.detectChanges();
-  });
-}
+  // ================= 🔥 FIXED REFRESH =================
+  reloadDashboardData() {
+    this.loadBooksChart();
+    this.loadBookIssueAnalysis();
+  }
+
 }

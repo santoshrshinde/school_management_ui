@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable,Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +8,15 @@ import { Observable } from 'rxjs';
 export class Common {
   private http = inject(HttpClient);
   private apiUrl = 'http://localhost:5000'; // Flask API base URL
+  
+
+  private refreshDashboard = new Subject<void>();
+
+  refreshDashboard$ = this.refreshDashboard.asObservable();
+
+  triggerDashboardRefresh() {
+    this.refreshDashboard.next();
+  }
 
   // =======================
   // STUDENT METHODS
